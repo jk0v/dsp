@@ -51,23 +51,22 @@ void init()
     digitalToggle(STATUS_PIN);
 }
 
-void test(int32_t** in, int32_t** out)
-{
-    static uint16_t t = 0;
-    for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
-    {
-        int32_t sig = (int32_t)arm_sin_f32(t * 0.01f * 2.0f * M_PI) * 1000000000.0f;
-        out[0][i] = in[0][i];
-        out[1][i] = in[1][i];
+// void test(int32_t** in, int32_t** out)
+// {
+//     static uint16_t t = 0;
+//     for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+//     {
+//         int32_t sig = (int32_t)arm_sin_f32(t * 0.01f * 2.0f * M_PI) * 1000000000.0f;
+//         out[0][i] = in[0][i];
+//         out[1][i] = in[1][i];
 
-        t++;
-        if(t>=100) t=0;
-    }
-}
+//         t++;
+//         if(t>=100) t=0;
+//     }
+// }
 
 void setup()
 {
-    i2sAudioCallback = test;
     init();
 }
 

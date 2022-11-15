@@ -12,6 +12,55 @@ namespace Audio
     typedef struct Block
     {
         int32_t data[2][AUDIO_BLOCK_SAMPLES];
+
+        // maybe unsafe
+        void cpy(Block* dest)
+        {
+            memcpy(&dest->data, &this->data, sizeof(data));
+        }
+        void cpy(int32_t** dest)
+        {
+            memcpy(&dest, &this->data, sizeof(data));
+        }
+        
+        // maybe unsafe
+        void set(Block* src)
+        {
+            memcpy(&src->data, &this->data, sizeof(data));
+        }
+        void set(int32_t** src)
+        {
+            memcpy(&src, &this->data, sizeof(data));
+        }
+
+        void add(Block* src, bool normalize)
+        {
+            for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+            {
+                this->data[0][i] += src->data[0][i];
+                this->data[1][i] += src->data[1][i];
+
+                if(normalize)
+                {
+                    this->data[0][i] / 2;
+                    this->data[1][i] / 2;
+                }
+            }
+        }
+        void add(int32_t** src, bool normalize)
+        {
+            for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+            {
+                this->data[0][i] += src[0][i];
+                this->data[1][i] += src[1][i];
+
+                if(normalize)
+                {
+                    this->data[0][i] / 2;
+                    this->data[1][i] / 2;
+                }
+            }
+        }
     } Block;
 }
 
