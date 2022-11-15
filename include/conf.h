@@ -7,6 +7,9 @@
 
 #define MAX_MODULE_IO 16
 
+// misc
+#define MAX_FILELENGTH 1024
+
 // pins
 // ADC: I2S1
 #define AD_MCLK_PIN 23

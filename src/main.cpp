@@ -1,9 +1,11 @@
 #include <Arduino.h>
 #include <SPI.h>
+#include <SD.h>
 #include "output_i2s.h"
 #include "input_i2s.h"
 #include "conf.h"
 #include "util.h"
+#include <arm_math.h>
 
 AudioOutputI2S out;
 AudioInputI2S in;
@@ -24,9 +26,15 @@ void init()
     // put ADC and DAC in reset mode
     digitalWrite(ADDA_RST_PIN, 0);
     digitalWrite(STATUS_PIN, 0);
-    // I2S init
-    out.begin();
-    in.begin();
+    // // I2S init
+    // out.begin();
+    // in.begin();
+
+    // SD init
+    if(!SD.begin(BUILTIN_SDCARD))
+    {
+        throwError("SD initialization failed.", 0);
+    }
 
     // SPI init
     SPI.begin();
@@ -43,8 +51,23 @@ void init()
     digitalToggle(STATUS_PIN);
 }
 
+void test(int32_t** in, int32_t** out)
+{
+    static uint16_t t = 0;
+    for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+    {
+        int32_t sig = (int32_t)arm_sin_f32(t * 0.01f * 2.0f * M_PI) * 1000000000.0f;
+        out[0][i] = in[0][i];
+        out[1][i] = in[1][i];
+
+        t++;
+        if(t>=100) t=0;
+    }
+}
+
 void setup()
 {
+    i2sAudioCallback = test;
     init();
 }
 

@@ -32,3 +32,25 @@ void writePGAGain(uint8_t lGain, uint8_t rGain)
 
     digitalWrite(PGA_CS_PIN, 1); // pull CS high for end of communication
 }
+
+// Throw error: msg: message to display, return code != 0: halts execution 
+void throwError(char* msg, uint8_t retCode)
+{
+    digitalWrite(STATUS_PIN, 1);
+
+    #if defined(SERIAL_COMM)
+    Serial.println(strcat("ERROR: ", msg));
+    #endif
+    if(retCode != 0)
+    {
+        while(1)
+        {
+            #if defined(SERIAL_COMM)
+            Serial.println("Halting execution.");
+            #endif
+            digitalToggle(STATUS_PIN);
+            delay(500);
+        }
+    }
+    delay(500);
+}

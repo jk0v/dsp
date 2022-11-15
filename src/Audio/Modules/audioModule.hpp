@@ -23,8 +23,12 @@ namespace Audio::Modules
         Module();
         ~Module();
 
-        friend class AudioInputI2S;
-        friend class AudioOutputI2S;
+        virtual uint8_t init(void* args);
+
+        ModuleType getType(){return type;}
+
+        // friend class AudioInputI2S;
+        // friend class AudioOutputI2S;
 
         protected:
         Block data;
@@ -35,7 +39,16 @@ namespace Audio::Modules
         Module* inputs[MAX_MODULE_IO];
         Module* outputs[MAX_MODULE_IO];
         
+        ModuleType type;
+
         virtual void update();
         virtual uint8_t publish();
+    };
+
+    enum ModuleType
+    {
+        IN_I2S,
+        OUT_I2S,
+        MODULETYPE_LAST
     };
 }

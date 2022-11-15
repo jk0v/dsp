@@ -2,5 +2,9 @@
     "files.associations": {
         "cstdint": "cpp",
         "iosfwd": "cpp"
+    },
+    "workbench.editor.tabSizing": "shrink",
+    "workbench.editorAssociations": {
+        // "*.mod": "hexEditor.hexedit"
     }
 }
