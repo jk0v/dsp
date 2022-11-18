@@ -1,17 +1,16 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <SD.h>
+#include <arm_math.h>
 #include "output_i2s.h"
 #include "input_i2s.h"
 #include "conf.h"
 #include "util.h"
-#include <arm_math.h>
+#include "Audio/Modules/modFileIO.hpp"
 
-AudioOutputI2S out;
-AudioInputI2S in;
-
-int32_t audioData;
-
+// AudioOutputI2S i2sOut;
+// AudioInputI2S i2sIn;
+ModuleChain mChain;
 
 void init()
 {
@@ -26,9 +25,10 @@ void init()
     // put ADC and DAC in reset mode
     digitalWrite(ADDA_RST_PIN, 0);
     digitalWrite(STATUS_PIN, 0);
-    // // I2S init
-    // out.begin();
-    // in.begin();
+    
+    // I2S init
+    i2sOut.begin();
+    i2sIn.begin();
 
     // SD init
     if(!SD.begin(BUILTIN_SDCARD))
@@ -42,12 +42,13 @@ void init()
     SPI.setMISO(SPI_MISO_PIN);
     SPI.setSCK(SPI_SCLK_PIN);
     
+    // release ADDA reset
+    digitalWrite(ADDA_RST_PIN, 1);
+
     // ADC, PGA config
     writeADCRegister(0x01, 0b11100001); // ADC config: 1:CP-EN = true, 000:MCLKDIV = /1, 01:DIF = I2S, 11:MODE = slave
     writePGAGain((uint8_t)255, (uint8_t)255); // set initial channel gain (192 = 0dB)
 
-    // release ADDA reset
-    digitalWrite(ADDA_RST_PIN, 1);
     digitalToggle(STATUS_PIN);
 }
 
@@ -67,6 +68,8 @@ void init()
 
 void setup()
 {
+
+
     init();
 }
 

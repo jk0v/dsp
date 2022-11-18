@@ -1,7 +1,4 @@
-#pragma once
-#include <SD.h>
-#include "util.h"
-#include "audioModule.hpp"
+#include "moduleChain.hpp"
 
 namespace Audio::Modules
 {
@@ -39,7 +36,7 @@ namespace Audio::Modules
 
     void loadModulesFromFile(char* filePath = "default.mod")
     {
-        deserializeModFile(filePath, strncpy(strchr(filePath)))
+        // deserializeModFile(filePath, strcpy)
         
     }
 

@@ -14,23 +14,23 @@ namespace Audio
         int32_t data[2][AUDIO_BLOCK_SAMPLES];
 
         // maybe unsafe
-        void cpy(Block* dest)
+        void cpyTo(Block* dest)
         {
-            memcpy(&dest->data, &this->data, sizeof(data));
+            memcpy(dest->data, this->data, sizeof(data));
         }
-        void cpy(int32_t** dest)
+        void cpyTo(int32_t** dest)
         {
-            memcpy(&dest, &this->data, sizeof(data));
+            memcpy(dest, this->data, sizeof(data));
         }
         
         // maybe unsafe
-        void set(Block* src)
+        void setFrom(Block* src)
         {
-            memcpy(&src->data, &this->data, sizeof(data));
+            memcpy(src->data, this->data, sizeof(data));
         }
-        void set(int32_t** src)
+        void setFrom(int32_t** src)
         {
-            memcpy(&src, &this->data, sizeof(data));
+            memcpy(src, this->data, sizeof(data));
         }
 
         void add(Block* src, bool normalize)

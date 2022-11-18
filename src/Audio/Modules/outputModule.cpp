@@ -27,8 +27,8 @@ namespace Audio::Modules
         // // probably unsafe
         // memcpy(&InputI2S::input.data, &in, sizeof(&in));
         // memcpy(&out, &OutputI2S::output.data, sizeof(OutputI2S::output.data));
-        InputI2S::input.cpy(in);
-        OutputI2S::output.set(out);
+        InputI2S::input.cpyTo(in);
+        OutputI2S::output.setFrom(out);
     }
 
 
@@ -36,7 +36,6 @@ namespace Audio::Modules
     OutputI2S::OutputI2S()
     {
         i2sAudioCallback = audioCallback;
-
         i2sOut.begin();
     }
 
