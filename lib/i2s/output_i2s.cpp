@@ -66,6 +66,7 @@ void AudioOutputI2S::begin()
 	// Major loop = the buffer size, events can run when we hit the half and end of the major loop
 	// To reset Source address, trigger interrupts, etc.
 	DA_DATA_PIN_CONF = 3;  //1:TX_DATA0
+    // CORE_PIN7_CONFIG  = 3;  //1:TX_DATA0
 	dma.TCD->SADDR = i2s_tx_buffer;
 	dma.TCD->SOFF = 4; // how many bytes to jump from current address on the next move
 	dma.TCD->ATTR = DMA_TCD_ATTR_SSIZE(2) | DMA_TCD_ATTR_DSIZE(2); // 1=16bits, 2=32 bits. size of source, size of dest
@@ -158,6 +159,8 @@ void AudioOutputI2S::config_i2s(bool only_bclk)
 	  {
 	    DA_MCLK_PIN_CONF = 3;  //1:MCLK
 	    DA_LRCLK_PIN_CONF = 3;  //1:RX_SYNC (LRCLK)
+        // CORE_PIN23_CONFIG = 3;  //1:MCLK
+	    // CORE_PIN20_CONFIG = 3;  //1:RX_SYNC (LRCLK) 
 	  }
 	  return ;
 	}
@@ -192,6 +195,10 @@ void AudioOutputI2S::config_i2s(bool only_bclk)
 	  DA_LRCLK_PIN_CONF = 3;  //1:RX_SYNC  (LRCLK)
 	}
 	DA_BCLK_PIN_CONF = 3;  //1:RX_BCLK
+    //   CORE_PIN23_CONFIG = 3;  //1:MCLK
+	//   CORE_PIN20_CONFIG = 3;  //1:RX_SYNC  (LRCLK)
+	// }
+	// CORE_PIN21_CONFIG = 3;  //1:RX_BCLK 
 
 	int rsync = 0;
 	int tsync = 1;

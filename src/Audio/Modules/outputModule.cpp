@@ -43,7 +43,7 @@ namespace Audio::Modules
     {
         for(size_t i = 0; i < MAX_MODULE_IO; i++)
         {
-            output.add(&inputBuffers[i], true);
+            output.add(&inputBuffers[i], MAX_MODULE_IO);
         }
     }
 }

@@ -33,32 +33,27 @@ namespace Audio
             memcpy(src, this->data, sizeof(data));
         }
 
-        void add(Block* src, bool normalize)
+        void add(Block* src, int32_t normalize = 1)
         {
             for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
             {
+                src->data[0][i] /= normalize;
+                src->data[1][i] /= normalize;
+
                 this->data[0][i] += src->data[0][i];
                 this->data[1][i] += src->data[1][i];
-
-                if(normalize)
-                {
-                    this->data[0][i] / 2;
-                    this->data[1][i] / 2;
-                }
             }
         }
-        void add(int32_t** src, bool normalize)
+        void add(int32_t** src, int32_t normalize = 1)
         {
             for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
             {
+                src[0][i] /= normalize;
+                src[1][i] /= normalize;
+
                 this->data[0][i] += src[0][i];
                 this->data[1][i] += src[1][i];
 
-                if(normalize)
-                {
-                    this->data[0][i] / 2;
-                    this->data[1][i] / 2;
-                }
             }
         }
     } Block;

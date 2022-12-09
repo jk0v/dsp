@@ -37,6 +37,7 @@ void AudioInputI2S::begin()
 	dma.begin(true); // Allocate the DMA channel first
 
 	AD_DATA_PIN_CONF = 3;  //1:RX_DATA0
+    // CORE_PIN8_CONFIG  = 3;  //1:RX_DATA0
 	IOMUXC_SAI1_RX_DATA0_SELECT_INPUT = 2;
 
 	dma.TCD->SADDR = (void *)((uint32_t)&I2S1_RDR0 + 0); // source address, read from 0 byte offset as we want the full 32 bits
