@@ -2,7 +2,7 @@
 
 namespace Audio::Modules
 {
-    void deserializeModFile(char* filePath)
+    void deserializeModFile(char* filePath, char* cachePath)
     {
         File modFile;
         char modBuffer[MAX_FILELENGTH];
@@ -36,7 +36,8 @@ namespace Audio::Modules
 
     void loadModulesFromFile(char* filePath = "default.mod")
     {
-        // deserializeModFile(filePath, strcpy)
+        char* cachePath = strncat(filePath, ".tmp", strlen(filePath)-4);
+        deserializeModFile(filePath, );
         
     }
 
