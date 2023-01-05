@@ -3,21 +3,24 @@
 #include "util.h"
 #include "audioModule.hpp"
 
-namespace Audio::Modules
+namespace Audio
 {
-    class ModuleChain
+    namespace Modules
     {
-        public:
-        ModuleChain();
-        ~ModuleChain();
+        class ModuleChain
+        {
+            public:
+            ModuleChain();
+            ~ModuleChain();
 
-        uint8_t loadModulesFromFile(char* filePath = "default.mod");
+            uint8_t loadModulesFromFile(char* filePath = "default.stp");
 
-        private:
-        Module* modules;
+            private:
+            Module* modules;
 
-    };
-    
-    void deserializeModFile(char* filePath);
-    void loadModule(ModuleType type);
+        };
+        
+        void deserializeModFile(char* filePath);
+        void loadModule(ModuleType type);
+    }
 }

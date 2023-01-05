@@ -1,4 +1,7 @@
 #pragma once
+#ifndef UTIL_H
+#define UTIL_H
+
 #include <Arduino.h>
 #include <cstdint>
 #include <SPI.h>
@@ -54,3 +57,4 @@ void throwError(char* msg, uint8_t retCode)
     }
     delay(500);
 }
+#endif

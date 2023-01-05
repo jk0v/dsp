@@ -41,16 +41,16 @@
 BufferQueue AudioOutputI2S::buffers;
 DMAChannel AudioOutputI2S::dma(false);
 
-void audioCallbackPassthrough(int32_t **inputs, int32_t **outputs)
-{
-	for (size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
-	{
-		outputs[0][i] = inputs[0][i];
-		outputs[1][i] = inputs[1][i];
-	}
-}
+// void audioCallbackPassthrough(int32_t **inputs, int32_t **outputs)
+// {
+// 	for (size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+// 	{
+// 		outputs[0][i] = inputs[0][i];
+// 		outputs[1][i] = inputs[1][i];
+// 	}
+// }
 
-void (*i2sAudioCallback)(int32_t **inputs, int32_t **outputs) = audioCallbackPassthrough;
+void (*i2sAudioCallback)(int32_t **inputs, int32_t **outputs) = nullptr;
 
 DMAMEM __attribute__((aligned(32))) static uint64_t i2s_tx_buffer[AUDIO_BLOCK_SAMPLES];
 #include "utility/imxrt_hw.h"
@@ -97,6 +97,9 @@ void AudioOutputI2S::isr(void)
 	int32_t *blockR;
 	uint32_t saddr, offset;
 	bool callUpdate;
+
+
+	digitalToggle(35);
 
 	saddr = (uint32_t)(dma.TCD->SADDR);
 	dma.clearInterrupt();

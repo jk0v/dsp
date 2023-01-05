@@ -57,42 +57,42 @@ namespace Audio
             }
         }
     } Block;
-}
 
-namespace Audio::Modules
-{
-    class Module
+    namespace Modules
     {
-        public:
-        Module();
-        ~Module();
+        enum ModuleType
+        {
+            IN_I2S,
+            OUT_I2S,
+            MODULETYPE_LAST
+        };
+        class Module
+        {
+            public:
+            Module() {}
+            ~Module() {}
 
-        virtual uint8_t init(void* args);
+            virtual void init(void* args) {};
 
-        ModuleType getType(){return type;}
+            ModuleType getType(){return type;}
 
-        // friend class AudioInputI2S;
-        // friend class AudioOutputI2S;
+            // friend class AudioInputI2S;
+            // friend class AudioOutputI2S;
 
-        protected:
-        Block data;
+            protected:
+            Block data;
 
-        Block inputBuffers[MAX_MODULE_IO];
-        Block outputBuffers[MAX_MODULE_IO];
+            Block inputBuffers[MAX_MODULE_IO];
+            Block outputBuffers[MAX_MODULE_IO];
 
-        Module* inputs[MAX_MODULE_IO];
-        Module* outputs[MAX_MODULE_IO];
-        
-        ModuleType type;
+            Module* inputs[MAX_MODULE_IO];
+            Module* outputs[MAX_MODULE_IO];
+            
+            ModuleType type;
 
-        virtual void update();
-        virtual uint8_t publish();
-    };
+            virtual void update() {}
+            virtual void publish() {}
+        };
 
-    enum ModuleType
-    {
-        IN_I2S,
-        OUT_I2S,
-        MODULETYPE_LAST
-    };
+    }
 }

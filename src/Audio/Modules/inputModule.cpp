@@ -1,10 +1,18 @@
 #include "inputModule.hpp"
+// #include "util.h"
 
-namespace Audio::Modules
+namespace Audio
 {
-    InputI2S::InputI2S()
+    namespace Modules
     {
-        i2sAudioCallback = audioCallback;
-        i2sIn.begin();
+        InputI2S::InputI2S()
+        {
+        }
+
+        void InputI2S::init(void* args)
+        {
+            i2sAudioCallback = audioCallback;
+            i2sIn.begin();
+        }
     }
 }

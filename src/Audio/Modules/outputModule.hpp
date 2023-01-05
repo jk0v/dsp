@@ -3,25 +3,31 @@
 #include "audioModule.hpp"
 #include "inputModule.hpp"
 
-namespace Audio::Modules
+namespace Audio
 {
-    void audioCallback(int32_t** in, int32_t** out);
-
-    class OutputI2S : protected Module
+    namespace Modules
     {
-        public:
-        OutputI2S();
-        ~OutputI2S();
+        void audioCallback(int32_t** in, int32_t** out);
 
-        friend void audioCallback(int32_t** in, int32_t** out);
+        class OutputI2S : protected Module
+        {
+            public:
+            OutputI2S();
+            ~OutputI2S() {}
 
-        protected:
-        static Block output;
-        float gains[MAX_MODULE_IO];
+            void init(void* args) override;
+            
+            friend void audioCallback(int32_t** in, int32_t** out);
 
-        void update();
+            protected:
+            Block output;
+            float gains[MAX_MODULE_IO];
 
-        private:
-        AudioOutputI2S i2sOut;
-    };
+            void update() override;
+
+
+            private:
+            AudioOutputI2S i2sOut;
+        };
+    }
 }

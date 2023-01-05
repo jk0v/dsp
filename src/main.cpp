@@ -2,14 +2,18 @@
 #include <SPI.h>
 #include <SD.h>
 #include <arm_math.h>
-#include "output_i2s.h"
-#include "input_i2s.h"
+// #include "output_i2s.h"
+// #include "input_i2s.h"
 #include "conf.h"
 #include "util.h"
-// #include "Audio/Modules/moduleChain.hpp"
+#include "Audio/Modules/outputModule.hpp"
+#include "Audio/Modules/inputModule.hpp"
 
-AudioOutputI2S i2sOut;
-AudioInputI2S i2sIn;
+// AudioOutputI2S i2sOut;
+// AudioInputI2S i2sIn;
+Audio::Modules::OutputI2S outI2S;
+Audio::Modules::InputI2S inI2S;
+
 //Audio::Modules::ModuleChain mChain;
 
 void init()
@@ -22,15 +26,18 @@ void init()
     pinMode(ADDA_RST_PIN, OUTPUT);
     pinMode(STATUS_PIN, OUTPUT);
 
+    // debug (callbacks)
+    pinMode(35, OUTPUT);
+
     // put ADC and DAC in reset mode
     digitalWrite(ADDA_RST_PIN, 0);
     digitalWrite(STATUS_PIN, 0);
     
     // I2S init
-    // i2sOut->begin();
-    // i2sIn->begin();
-    i2sOut.begin();
-    i2sIn.begin();
+    // i2sOut.begin();
+    // i2sIn.begin();
+    outI2S.init(nullptr);
+    // inI2S.init(nullptr);
 
     // SD init
     if(!SD.begin(BUILTIN_SDCARD))
@@ -54,24 +61,22 @@ void init()
     digitalToggle(STATUS_PIN);
 }
 
-void test(int32_t** in, int32_t** out)
-{
-    static uint16_t t = 0;
-    for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
-    {
-        int32_t sig = (int32_t)arm_sin_f32(t * 0.01f * 200.0f * M_PI) * 1000000000.0f;
-        out[0][i] = in[0][i] + sig;
-        out[1][i] = in[1][i] + sig;
-
-        t++;
-        if(t>=100) t=0;
-    }
-}
+// void test(int32_t** in, int32_t** out)
+// {
+//     static uint16_t t = 0;
+//     for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+//     {
+//         int32_t sig = (int32_t)arm_sin_f32(t * 0.01f * 200.0f * M_PI) * 1000000000.0f;
+//         // out[0][i] = in[0][i] + sig;
+//         // out[1][i] = in[1][i] + sig;
+//         out[0][i] += sig;
+//         t++;
+//         if(t>=100) t=0;
+//     }
+// }
 
 void setup()
 {
-    i2sAudioCallback = test;
-
     init();
 }
 

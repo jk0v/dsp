@@ -8,5 +8,6 @@
     "workbench.editor.tabSizing": "shrink",
     "workbench.editorAssociations": {
         // "*.mod": "hexEditor.hexedit"
-    }
+    },
+    "C_Cpp.default.cppStandard": "c++17"
 }
