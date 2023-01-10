@@ -7,7 +7,7 @@ namespace Audio
 {
     namespace Modules
     {
-        class InputI2S : protected Module
+        class InputI2S : public Module
         {
             public:
             InputI2S();

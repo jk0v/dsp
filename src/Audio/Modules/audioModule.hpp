@@ -1,8 +1,7 @@
 #pragma once
 #include <Arduino.h>
-#include "output_i2s.h"
-#include "input_i2s.h"
 #include "conf.h"
+#include "moduleChain.hpp"
 
 // TODO: think about order of propagation, audioSystem implementing ordered update, linearize signal chain(simplification)
 //       determine order from output to input once and save hierarchy
@@ -75,24 +74,25 @@ namespace Audio
             virtual void init(void* args) {};
 
             ModuleType getType(){return type;}
+            int16_t getIndex(){return index;}
 
-            // friend class AudioInputI2S;
-            // friend class AudioOutputI2S;
+            friend class ModuleChain;
 
             protected:
             Block data;
 
-            Block inputBuffers[MAX_MODULE_IO];
+            Block* inputBuffers[MAX_MODULE_IO];
             Block outputBuffers[MAX_MODULE_IO];
 
-            Module* inputs[MAX_MODULE_IO];
-            Module* outputs[MAX_MODULE_IO];
+            // Module* inputs[MAX_MODULE_IO];
+            // Module* outputs[MAX_MODULE_IO];
             
             ModuleType type;
+
+            int16_t index;
 
             virtual void update() {}
             virtual void publish() {}
         };
-
     }
 }

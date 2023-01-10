@@ -9,6 +9,7 @@
 
 // misc
 #define MAX_MODULE_IO 16
+#define MAX_MODULES 16
 #define MAX_FILELENGTH 1024
 
 // pins

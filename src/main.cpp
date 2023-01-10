@@ -6,13 +6,15 @@
 #include "util.h"
 #include "Audio/Modules/outputModule.hpp"
 #include "Audio/Modules/inputModule.hpp"
+#include "Audio/Modules/moduleChain.hpp"
 
 // AudioOutputI2S i2sOut;
 // AudioInputI2S i2sIn;
+Audio::Modules::ModuleChain modChain;
+
 Audio::Modules::OutputI2S outI2S;
 Audio::Modules::InputI2S inI2S;
 
-//Audio::Modules::ModuleChain mChain;
 
 void init()
 {
@@ -59,6 +61,13 @@ void init()
     digitalToggle(STATUS_PIN);
 }
 
+void modChainTest()
+{
+    modChain.addModule(&inI2S);
+    modChain.addModule(&outI2S);
+    modChain.addConnection(&inI2S, &outI2S);
+}
+
 // void test(int32_t** in, int32_t** out)
 // {
 //     static uint16_t t = 0;
@@ -76,6 +85,7 @@ void init()
 void setup()
 {
     init();
+    modChainTest();
 }
 
 void loop()

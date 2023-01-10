@@ -9,7 +9,7 @@ namespace Audio
     {
         void audioCallback(int32_t** in, int32_t** out);
 
-        class OutputI2S : protected Module
+        class OutputI2S : public Module
         {
             public:
             OutputI2S();
