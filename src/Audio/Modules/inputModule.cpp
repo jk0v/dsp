@@ -13,6 +13,13 @@ namespace Audio
         {
             i2sAudioCallback = audioCallback;
             i2sIn.begin();
+
+            type = ModuleType::IN_I2S;
+        }
+
+        void InputI2S::update()
+        {
+            data.cpyTo(&outputBuffers[0]);
         }
     }
 }

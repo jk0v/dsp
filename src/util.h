@@ -37,7 +37,7 @@ void writePGAGain(uint8_t lGain, uint8_t rGain)
 }
 
 // Throw error: msg: message to display, return code != 0: halts execution 
-void throwError(char* msg, uint8_t retCode)
+void throwError(const char* msg, uint8_t retCode)
 {
     digitalWrite(STATUS_PIN, 1);
 

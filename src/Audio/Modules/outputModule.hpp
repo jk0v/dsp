@@ -20,7 +20,6 @@ namespace Audio
             friend void audioCallback(int32_t** in, int32_t** out);
 
             protected:
-            Block output;
             float gains[MAX_MODULE_IO];
 
             void update() override;

@@ -2,8 +2,6 @@
 #include <SPI.h>
 #include <SD.h>
 #include <arm_math.h>
-// #include "output_i2s.h"
-// #include "input_i2s.h"
 #include "conf.h"
 #include "util.h"
 #include "Audio/Modules/outputModule.hpp"
@@ -37,7 +35,7 @@ void init()
     // i2sOut.begin();
     // i2sIn.begin();
     outI2S.init(nullptr);
-    // inI2S.init(nullptr);
+    inI2S.init(nullptr);
 
     // SD init
     if(!SD.begin(BUILTIN_SDCARD))

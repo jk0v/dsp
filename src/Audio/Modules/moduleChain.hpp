@@ -13,14 +13,14 @@ namespace Audio
             ModuleChain();
             ~ModuleChain();
 
-            uint8_t loadModulesFromFile(char* filePath = "default.stp");
+            // uint8_t loadModulesFromFile(char* filePath = "default.stp");
 
             private:
             Module* modules;
 
         };
         
-        void deserializeModFile(char* filePath);
-        void loadModule(ModuleType type);
+        // void deserializeModFile(char* filePath);
+        // void loadModule(ModuleType type);
     }
 }

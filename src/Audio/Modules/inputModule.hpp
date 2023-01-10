@@ -20,6 +20,8 @@ namespace Audio
             protected:
             Block input;
 
+            void update() override;
+
             private:
             AudioInputI2S i2sIn;
         };
