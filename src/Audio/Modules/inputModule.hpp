@@ -1,4 +1,6 @@
 #pragma once
+#ifndef INPUTMODULE_HPP
+#define INPUTMODULE_HPP
 #include "input_i2s.h"
 #include "audioModule.hpp"
 #include "outputModule.hpp"
@@ -27,3 +29,4 @@ namespace Audio
         };
     }
 }
+#endif

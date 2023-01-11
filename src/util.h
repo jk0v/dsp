@@ -1,6 +1,6 @@
 #pragma once
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef _UTIL_H_
+#define _UTIL_H_
 
 #include <Arduino.h>
 #include <cstdint>

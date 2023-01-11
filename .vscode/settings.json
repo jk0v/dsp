@@ -3,7 +3,8 @@
         "cstdint": "cpp",
         "iosfwd": "cpp",
         "string": "cpp",
-        "initializer_list": "cpp"
+        "initializer_list": "cpp",
+        "array": "cpp"
     },
     "workbench.editor.tabSizing": "shrink",
     "workbench.editorAssociations": {

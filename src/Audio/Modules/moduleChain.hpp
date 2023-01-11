@@ -1,6 +1,6 @@
 #pragma once
-#include <SD.h>
-#include "util.h"
+#ifndef MODULECHAIN_HPP
+#define MODULECHAIN_HPP
 #include "audioModule.hpp"
 
 namespace Audio
@@ -9,6 +9,10 @@ namespace Audio
     {
         typedef struct Connection
         {
+            Module* src;
+            Module* dest;
+            int16_t srcIndex, destIndex;
+
             void init(Module* src, Module* dest, int16_t srcIndex, int16_t destIndex)
             {
                 this->src = src;
@@ -23,10 +27,6 @@ namespace Audio
                 this->srcIndex = MAX_MODULES+1;
                 this->destIndex = MAX_MODULES+1;
             }
-
-            Module* src;
-            Module* dest;
-            int16_t srcIndex, destIndex;
         } Connection;
 
         class ModuleChain
@@ -42,7 +42,7 @@ namespace Audio
             void removeModule(Module* mod);
             void removeConnection(Connection* conn);
 
-            void loadModulesFromFile(char* filePath = "default.ch");
+            void loadModulesFromFile(const char* filePath = "default.ch");
             
 
             private:
@@ -55,3 +55,4 @@ namespace Audio
         // void loadModule(ModuleType type);
     }
 }
+#endif

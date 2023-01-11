@@ -28,10 +28,12 @@ void init()
 
     // debug (callbacks)
     pinMode(35, OUTPUT);
+    pinMode(34, OUTPUT);
+    digitalToggle(35);
 
     // put ADC and DAC in reset mode
     digitalWrite(ADDA_RST_PIN, 0);
-    digitalWrite(STATUS_PIN, 0);
+    digitalWrite(STATUS_PIN, 1);
     
     // I2S init
     // i2sOut.begin();
@@ -59,6 +61,7 @@ void init()
     writePGAGain((uint8_t)255, (uint8_t)255); // set initial channel gain (192 = 0dB)
 
     digitalToggle(STATUS_PIN);
+    digitalToggle(35);
 }
 
 void modChainTest()
