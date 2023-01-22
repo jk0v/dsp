@@ -14,7 +14,7 @@ namespace Audio
         class OutputI2S : public Module
         {
             public:
-            OutputI2S();
+            OutputI2S() {}
             ~OutputI2S() {}
 
             void init(void* args) override;
@@ -25,7 +25,6 @@ namespace Audio
             float gains[MAX_MODULE_IO];
 
             void update() override;
-
 
             private:
             AudioOutputI2S i2sOut;

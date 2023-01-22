@@ -37,17 +37,20 @@ namespace Audio
             // inB.setFrom(in);
             // outB.cpyTo(out);
             // memcpy(out, in, sizeof(int32_t)*AUDIO_BLOCK_SAMPLES*2);
-            digitalToggleFast(34);
+            // digitalToggleFast(34);
 
-            inI2S.data.setFrom(in);
-            outI2S.data.cpyTo(out);
+            // inI2S.data.setFrom(in);
+            // outI2S.data.cpyTo(out);
+            // inI2S.outputBuffers[0].setFromMono(in);
+            // outI2S.inputBuffers[0]->cpyToMono(out);
+
+            for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+            {
+                out[0][i] = in[0][i]<<6;
+                out[1][i] = in[0][i]<<6;
+            }
         }
 
-
-
-        OutputI2S::OutputI2S()
-        {
-        }
 
         void OutputI2S::init(void* args)
         {

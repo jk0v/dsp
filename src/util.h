@@ -56,5 +56,6 @@ void throwError(const char* msg, uint8_t retCode)
         }
     }
     delay(500);
+    digitalWrite(STATUS_PIN, 0);
 }
 #endif

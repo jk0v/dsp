@@ -4,7 +4,9 @@
         "iosfwd": "cpp",
         "string": "cpp",
         "initializer_list": "cpp",
-        "array": "cpp"
+        "array": "cpp",
+        "string.h": "c",
+        "cstring": "cpp"
     },
     "workbench.editor.tabSizing": "shrink",
     "workbench.editorAssociations": {

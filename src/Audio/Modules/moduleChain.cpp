@@ -27,6 +27,7 @@ namespace Audio
             } else
             {
                 // throwError("Maximum amount of connections reached.", 0);
+                digitalToggle(35);
             }
         }
         

@@ -35,7 +35,7 @@ extern void (*i2sAudioCallback)(int32_t** inputs, int32_t** outputs);
 class AudioOutputI2S
 {
 public:
-	AudioOutputI2S(void) { }
+	AudioOutputI2S(void) {}
 	void begin(void);
 	friend class AudioInputI2S;
 

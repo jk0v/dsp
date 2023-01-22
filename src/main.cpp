@@ -42,10 +42,10 @@ void init()
     inI2S.init(nullptr);
 
     // SD init
-    if(!SD.begin(BUILTIN_SDCARD))
-    {
-        throwError("SD initialization failed.", 0);
-    }
+    // if(!SD.begin(BUILTIN_SDCARD))
+    // {
+    //     throwError("SD initialization failed.", 0);
+    // }
 
     // SPI init
     SPI.begin();
