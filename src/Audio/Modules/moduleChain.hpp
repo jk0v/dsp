@@ -42,7 +42,7 @@ namespace Audio
             void removeModule(Module* mod);
             void removeConnection(Connection* conn);
 
-            void loadModulesFromFile(const char* filePath = "default.ch");
+            void loadChainFromFile(const char* filePath = "default.chn");
             
 
             private:

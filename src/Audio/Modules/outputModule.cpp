@@ -40,15 +40,15 @@ namespace Audio
             // digitalToggleFast(34);
 
             // inI2S.data.setFrom(in);
-            // outI2S.data.cpyTo(out);
-            // inI2S.outputBuffers[0].setFromMono(in);
+            inI2S.outputBuffers[0].setFromMono(in);
+            outI2S.data.cpyTo(out);
             // outI2S.inputBuffers[0]->cpyToMono(out);
 
-            for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
-            {
-                out[0][i] = in[0][i]<<6;
-                out[1][i] = in[0][i]<<6;
-            }
+            // for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+            // {
+            //     out[0][i] = in[0][i]<<6;
+            //     out[1][i] = in[0][i]<<6;
+            // }
         }
 
 

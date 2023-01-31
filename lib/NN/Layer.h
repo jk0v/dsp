@@ -5,5 +5,8 @@
 namespace NN
 {
     class Layer 
+    {
+        
+    }
 }
 #endif

@@ -28,7 +28,6 @@ void init()
 
     // debug (callbacks)
     pinMode(35, OUTPUT);
-    pinMode(34, OUTPUT);
     digitalToggle(35);
 
     // put ADC and DAC in reset mode
@@ -42,10 +41,10 @@ void init()
     inI2S.init(nullptr);
 
     // SD init
-    // if(!SD.begin(BUILTIN_SDCARD))
-    // {
-    //     throwError("SD initialization failed.", 0);
-    // }
+    if(!SD.begin(BUILTIN_SDCARD))
+    {
+        throwError("SD initialization failed.", 0);
+    }
 
     // SPI init
     SPI.begin();

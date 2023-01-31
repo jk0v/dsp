@@ -9,16 +9,19 @@ namespace NN
     namespace LSTM
     {
         template <typename T, int inSize, int outSize>
-        class LSTMLayer : 
+        class LSTMLayer
         {
             public:
             LSTMLayer();
             ~LSTMLayer() {}
 
-            T forward(const T (&inState)[inSize])
+            inline T forward(const T (&inState)[inSize])
             {
-                recurrent_mat_mul(outState)
+                recurrent_mat_mul(outState, Uf, ft);
             }
+
+            private:
+            
 
         };
     }

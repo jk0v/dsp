@@ -5,10 +5,6 @@ namespace Audio
 {
     namespace Modules
     {
-        InputI2S::InputI2S()
-        {
-        }
-
         void InputI2S::init(void* args)
         {
             i2sAudioCallback = audioCallback;

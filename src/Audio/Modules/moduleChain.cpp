@@ -57,6 +57,11 @@ namespace Audio
             }
             // throwError("Could not remove connection/Connection not in moduleChain.", 0);
         }
+
+        void ModuleChain::loadChainFromFile(const char* filePath = "default.chn")
+        {
+            
+        }
         
         
         ModuleChain::ModuleChain()
