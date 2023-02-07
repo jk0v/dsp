@@ -6,7 +6,8 @@
         "initializer_list": "cpp",
         "array": "cpp",
         "string.h": "c",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "chrono": "cpp"
     },
     "workbench.editor.tabSizing": "shrink",
     "workbench.editorAssociations": {

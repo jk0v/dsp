@@ -7,10 +7,16 @@
 #define BIT_DEPTH 24
 #define AUDIO_BLOCK_SAMPLES 64
 
-// misc
+// modules
 #define MAX_MODULE_IO 16
 #define MAX_MODULES 16
+#define MAX_CONNECTIONS MAX_MODULES*4
+#define MODULE_LOOP_DUR 1ms
+
+// misc
 #define MAX_FILELENGTH 1024
+
+#define PLAIN_VANILLA_CALLBACKS
 
 // i2s
 #define ADDA_I2S_INTERFACE 2

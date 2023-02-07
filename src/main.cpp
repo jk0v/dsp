@@ -60,7 +60,6 @@ void init()
     writePGAGain((uint8_t)255, (uint8_t)255); // set initial channel gain (192 = 0dB)
 
     digitalToggle(STATUS_PIN);
-    digitalToggle(35);
 }
 
 void modChainTest()

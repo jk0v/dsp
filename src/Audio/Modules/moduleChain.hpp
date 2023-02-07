@@ -1,6 +1,7 @@
 #pragma once
 #ifndef MODULECHAIN_HPP
 #define MODULECHAIN_HPP
+#include <TeensyTimerTool.h>
 #include "audioModule.hpp"
 
 namespace Audio
@@ -43,12 +44,15 @@ namespace Audio
             void removeConnection(Connection* conn);
 
             void loadChainFromFile(const char* filePath = "default.chn");
-            
+
+            static void updateCallback();            
 
             private:
             Module* modules[MAX_MODULES];
-            Connection connections[MAX_MODULES];
+            Connection connections[MAX_CONNECTIONS];
             int16_t modIndex, connIndex;
+
+            TeensyTimerTool::PeriodicTimer updateClock;
         };
         
         // void deserializeModFile(char* filePath);

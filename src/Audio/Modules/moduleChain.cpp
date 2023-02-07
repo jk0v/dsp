@@ -1,5 +1,6 @@
 #include "moduleChain.hpp"
 // #include "util.h"
+#include <sd
 
 namespace Audio
 {
@@ -11,7 +12,6 @@ namespace Audio
             {
                 modules[modIndex] = mod;
                 modIndex++;
-                digitalToggle(35);
             } else
             {
                 // throwError("Maximum amount of modules reached.", 0);
@@ -23,11 +23,9 @@ namespace Audio
             {
                 dest->inputBuffers[dest->index] = &src->outputBuffers[src->index];
                 connections[connIndex].init(src, dest, src->index, dest->index);
-                digitalToggle(35);
             } else
             {
                 // throwError("Maximum amount of connections reached.", 0);
-                digitalToggle(35);
             }
         }
         
@@ -62,12 +60,19 @@ namespace Audio
         {
             
         }
-        
-        
+
+        void ModuleChain::updateCallback()
+        {
+            digitalToggle(35);
+        }
+
+
         ModuleChain::ModuleChain()
         {
             modIndex = 0;
             connIndex = 0;
+
+            updateClock.begin(updateCallback, MODULE_LOOP_DUR);
         }
         ModuleChain::ModuleChain(ModuleType* preset)
         {

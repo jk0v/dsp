@@ -37,7 +37,6 @@ namespace Audio
             // inB.setFrom(in);
             // outB.cpyTo(out);
             // memcpy(out, in, sizeof(int32_t)*AUDIO_BLOCK_SAMPLES*2);
-            // digitalToggleFast(34);
 
             // inI2S.data.setFrom(in);
             inI2S.outputBuffers[0].setFromMono(in);
