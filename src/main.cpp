@@ -37,8 +37,8 @@ void init()
     // I2S init
     // i2sOut.begin();
     // i2sIn.begin();
-    outI2S.init(nullptr);
-    inI2S.init(nullptr);
+    outI2S.init();
+    inI2S.init();
 
     // SD init
     if(!SD.begin(BUILTIN_SDCARD))

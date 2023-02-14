@@ -5,7 +5,7 @@ namespace Audio
 {
     namespace Modules
     {
-        void InputI2S::init(void* args)
+        void InputI2S::init()
         {
             i2sAudioCallback = audioCallback;
             i2sIn.begin();
@@ -13,9 +13,10 @@ namespace Audio
             type = ModuleType::IN_I2S;
         }
 
-        void InputI2S::update()
+        UpdateStatus InputI2S::update()
         {
             data.cpyTo(&outputBuffers[0]);
+            return FINISHED;
         }
     }
 }

@@ -154,8 +154,6 @@ void AudioOutputI2S::isr(void)
 	bool callUpdate;
 
 
-	digitalToggle(35);
-
 	saddr = (uint32_t)(dma.TCD->SADDR);
 	dma.clearInterrupt();
 	if (saddr < (uint32_t)i2s_tx_buffer + sizeof(i2s_tx_buffer) / 2)

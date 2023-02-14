@@ -12,7 +12,7 @@ namespace Audio
         void audioCallback(int32_t** in, int32_t** out)
         {
             // static uint16_t t = 0;
-            // for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+            // for(auto i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
             // {
             //     // int32_t sig = (int32_t)arm_sin_f32(t * 0.01f * 2.0f * M_PI) * 1000000000.0f;
             //     // out[0][i] = in[0][i] + sig;
@@ -24,7 +24,7 @@ namespace Audio
             //     if(t>=100) t=0;
             // }
 
-            // for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+            // for(auto i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
             // {
             //     InputI2S::input.data[0][i] = in[0][i];
             //     InputI2S::input.data[1][i] = in[1][i];
@@ -43,7 +43,7 @@ namespace Audio
             outI2S.data.cpyTo(out);
             // outI2S.inputBuffers[0]->cpyToMono(out);
 
-            // for(size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+            // for(auto i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
             // {
             //     out[0][i] = in[0][i]<<6;
             //     out[1][i] = in[0][i]<<6;
@@ -51,7 +51,7 @@ namespace Audio
         }
 
 
-        void OutputI2S::init(void* args)
+        void OutputI2S::init()
         {
             i2sAudioCallback = audioCallback;
             i2sOut.begin();
@@ -59,16 +59,17 @@ namespace Audio
             type = ModuleType::OUT_I2S;
         }
 
-        void OutputI2S::update()
+        UpdateStatus OutputI2S::update()
         {
             // TODO: module chain keeps track of how many mods
             
             // maybe later
-            // for(size_t i = 0; i < MAX_MODULE_IO; i++)
+            // for(auto i = 0; i < MAX_MODULE_IO; i++)
             // {
             //     data.add(&inputBuffers[i], MAX_MODULE_IO);
             // }
             data.setFrom(inputBuffers[0]);
+            return FINISHED;
         }
     }
 }

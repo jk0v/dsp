@@ -17,14 +17,14 @@ namespace Audio
             OutputI2S() {}
             ~OutputI2S() {}
 
-            void init(void* args) override;
+            void init() override;
             
             friend void audioCallback(int32_t** in, int32_t** out);
 
             protected:
             float gains[MAX_MODULE_IO];
 
-            void update() override;
+            UpdateStatus update() override;
 
             private:
             AudioOutputI2S i2sOut;

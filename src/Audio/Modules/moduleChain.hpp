@@ -8,6 +8,8 @@ namespace Audio
 {
     namespace Modules
     {
+        void updateCallback();
+
         typedef struct Connection
         {
             Module* src;
@@ -29,7 +31,6 @@ namespace Audio
                 this->destIndex = MAX_MODULES+1;
             }
         } Connection;
-
         class ModuleChain
         {
             public:
@@ -44,8 +45,8 @@ namespace Audio
             void removeConnection(Connection* conn);
 
             void loadChainFromFile(const char* filePath = "default.chn");
-
-            static void updateCallback();            
+            
+            friend void updateCallback();     
 
             private:
             Module* modules[MAX_MODULES];

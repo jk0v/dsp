@@ -15,14 +15,14 @@ namespace Audio
             InputI2S();
             ~InputI2S() {}
 
-            void init(void* args) override;
+            void init() override;
             
             friend void audioCallback(int32_t** in, int32_t** out);
             
             protected:
             Block input;
 
-            void update() override;
+            UpdateStatus update() override;
 
             private:
             AudioInputI2S i2sIn;

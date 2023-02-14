@@ -1,11 +1,22 @@
 #include "moduleChain.hpp"
 // #include "util.h"
-#include <sd
+extern Audio::Modules::ModuleChain modChain;
 
 namespace Audio
 {
     namespace Modules
     {
+        void updateCallback()
+        {
+            for(auto i=0; i<=modChain.connIndex; i++)
+            {
+                if(modChain.connections[i].src->update() == FINISHED)
+                {
+                    modChain.connections[i].dest->update();
+                }
+            }
+        }
+
         void ModuleChain::addModule(Module* mod)
         {
             if(modIndex < MAX_MODULES)
@@ -31,7 +42,7 @@ namespace Audio
         
         void ModuleChain::removeModule(Module* mod)
         {
-            for(int i=0; i<MAX_MODULES; i++)
+            for(auto i=0; i<MAX_MODULES; i++)
             {
                 if(modules[i] == mod)
                 {
@@ -44,7 +55,7 @@ namespace Audio
         }
         void ModuleChain::removeConnection(Connection* conn)
         {
-            for(int i=0; i<MAX_MODULES; i++)
+            for(auto i=0; i<MAX_MODULES; i++)
             {
                 if(&connections[i] == conn)
                 {
@@ -61,10 +72,6 @@ namespace Audio
             
         }
 
-        void ModuleChain::updateCallback()
-        {
-            digitalToggle(35);
-        }
 
 
         ModuleChain::ModuleChain()
