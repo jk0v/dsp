@@ -40,8 +40,8 @@ namespace Audio
 
             // inI2S.data.setFrom(in);
             inI2S.outputBuffers[0].setFromMono(in);
-            outI2S.data.cpyTo(out);
-            // outI2S.inputBuffers[0]->cpyToMono(out);
+            // outI2S.data.cpyTo(out);
+            outI2S.inputBuffers[0]->cpyToMono(out);
 
             // for(auto i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
             // {
@@ -68,8 +68,15 @@ namespace Audio
             // {
             //     data.add(&inputBuffers[i], MAX_MODULE_IO);
             // }
+
+            if(status == UpdateStatus::FINISHED)
+            {
+                return UpdateStatus::FINISHED;
+            }
             data.setFrom(inputBuffers[0]);
-            return FINISHED;
+
+            status = UpdateStatus::FINISHED;
+            return status;
         }
     }
 }

@@ -11,12 +11,16 @@ namespace Audio
             i2sIn.begin();
 
             type = ModuleType::IN_I2S;
+            status = UpdateStatus::UNFINISHED;
         }
 
         UpdateStatus InputI2S::update()
         {
+            if(status != UNFINISHED && updateCount > 0) { return UpdateStatus::PASSING; }
             data.cpyTo(&outputBuffers[0]);
-            return FINISHED;
+
+            status = UpdateStatus::UNFINISHED;
+            return UpdateStatus::FINISHED;
         }
     }
 }

@@ -11,7 +11,7 @@
 #define MAX_MODULE_IO 16
 #define MAX_MODULES 16
 #define MAX_CONNECTIONS MAX_MODULES*4
-#define MODULE_LOOP_DUR 1ms
+#define MODULE_LOOP_DUR 10ms
 
 // misc
 #define MAX_FILELENGTH 1024

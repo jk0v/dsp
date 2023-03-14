@@ -6,15 +6,22 @@ namespace Audio
 {
     namespace Modules
     {
+        // unfinished
         void updateCallback()
         {
-            for(auto i=0; i<=modChain.connIndex; i++)
-            {
-                if(modChain.connections[i].src->update() == FINISHED)
-                {
-                    modChain.connections[i].dest->update();
-                }
-            }
+            // for(auto i=0; i<=modChain.connIndex; i++)
+            // {   
+            //     if(modChain.connections[i].src->getStatus() == UNFINISHED)
+            //     {
+            //         modChain.connections[i].src->update();
+            //     }
+            //     if(modChain.connections[i].dest->getStatus() == UNFINISHED)
+            //     {
+            //         modChain.connections[i].dest->update();
+            //     }
+            // }
+            // Serial.println("DAta woo!");
+            digitalToggle(35);
         }
 
         void ModuleChain::addModule(Module* mod)
@@ -79,7 +86,7 @@ namespace Audio
             modIndex = 0;
             connIndex = 0;
 
-            updateClock.begin(updateCallback, MODULE_LOOP_DUR);
+            // updateClock.begin(updateCallback, MODULE_LOOP_DUR);
         }
         ModuleChain::ModuleChain(ModuleType* preset)
         {

@@ -7,6 +7,7 @@
 #include "Audio/Modules/outputModule.hpp"
 #include "Audio/Modules/inputModule.hpp"
 #include "Audio/Modules/moduleChain.hpp"
+#include "Audio/Modules/serialModule.hpp"
 
 // AudioOutputI2S i2sOut;
 // AudioInputI2S i2sIn;
@@ -15,9 +16,13 @@ Audio::Modules::ModuleChain modChain;
 Audio::Modules::OutputI2S outI2S;
 Audio::Modules::InputI2S inI2S;
 
+// Audio::Modules::SerialModule serMod;
+
 
 void init()
 {
+    Serial.begin(115200);
+    Serial.println("Hello");
     // configure pins
     pinMode(AD_CS_PIN, OUTPUT);
     pinMode(DA_CS_PIN, OUTPUT);
@@ -40,11 +45,13 @@ void init()
     outI2S.init();
     inI2S.init();
 
+    // serMod.init();
+
     // SD init
-    if(!SD.begin(BUILTIN_SDCARD))
-    {
-        throwError("SD initialization failed.", 0);
-    }
+    // if(!SD.begin(BUILTIN_SDCARD))
+    // {
+    //     throwError("SD initialization failed.", 0);
+    // }
 
     // SPI init
     SPI.begin();
@@ -66,7 +73,9 @@ void modChainTest()
 {
     modChain.addModule(&inI2S);
     modChain.addModule(&outI2S);
+    // modChain.addModule(&serMod);
     modChain.addConnection(&inI2S, &outI2S);
+    // modChain.addConnection(&inI2S, &serMod);
 }
 
 // void test(int32_t** in, int32_t** out)
@@ -91,4 +100,6 @@ void setup()
 
 void loop()
 {
+        Serial.printf("%d\n", inI2S.outputBuffers[0].data[0][0]);
+        delayMicroseconds(500);
 }

@@ -132,7 +132,9 @@ namespace Audio
         enum UpdateStatus
         {
             FINISHED,
-            UNFINISHED
+            UNFINISHED,
+            PENDING,
+            PASSING
         };
         class Module
         {
@@ -143,9 +145,10 @@ namespace Audio
             virtual void init() {};
 
             ModuleType getType(){return type;}
+            UpdateStatus getStatus(){return status;}
             int16_t getIndex(){return index;}
             
-            virtual UpdateStatus update() {return UNFINISHED;}
+            virtual UpdateStatus update() {return UpdateStatus::UNFINISHED;}
 
             friend class ModuleChain;
 
@@ -159,6 +162,8 @@ namespace Audio
             // Module* outputs[MAX_MODULE_IO];
             
             ModuleType type;
+            UpdateStatus status;
+            int16_t updateCount;
 
             int16_t index;
 

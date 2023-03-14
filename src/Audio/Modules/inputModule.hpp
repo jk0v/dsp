@@ -5,6 +5,7 @@
 #include "audioModule.hpp"
 #include "outputModule.hpp"
 
+extern void loop();
 namespace Audio
 {
     namespace Modules
@@ -12,17 +13,19 @@ namespace Audio
         class InputI2S : public Module
         {
             public:
-            InputI2S();
+            InputI2S(){}
             ~InputI2S() {}
 
             void init() override;
             
             friend void audioCallback(int32_t** in, int32_t** out);
+            friend void ::loop();
+            
+            UpdateStatus update() override;
             
             protected:
             Block input;
 
-            UpdateStatus update() override;
 
             private:
             AudioInputI2S i2sIn;
