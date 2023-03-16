@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <SPI.h>
 #include "conf.h"
+#include "Audio/Modules/moduleChain.hpp"
 
 
 // writes data to a register of the ADC 

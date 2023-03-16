@@ -19,7 +19,6 @@ namespace Audio
             void init() override;
             
             friend void audioCallback(int32_t** in, int32_t** out);
-            friend void ::loop();
             
             UpdateStatus update() override;
             

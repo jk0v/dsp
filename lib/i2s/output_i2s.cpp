@@ -52,6 +52,16 @@ DMAChannel AudioOutputI2S::dma(false);
 
 void (*i2sAudioCallback)(int32_t **inputs, int32_t **outputs) = nullptr;
 
+void (*modUpdateCallback)() = nullptr;
+static bool inUpdates = false;
+
+static void setupModInterrupt()
+{
+    attachInterruptVector(IRQ_SOFTWARE, modUpdateCallback);
+    NVIC_SET_PRIORITY(IRQ_SOFTWARE, 208);
+    NVIC_ENABLE_IRQ(IRQ_SOFTWARE);
+}
+
 DMAMEM __attribute__((aligned(32))) static uint64_t i2s_tx_buffer[AUDIO_BLOCK_SAMPLES];
 #include "utility/imxrt_hw.h"
 #include "imxrt.h"
@@ -140,6 +150,8 @@ void AudioOutputI2S::begin()
             break;
         }
     }
+    inUpdates = false;
+    setupModInterrupt();
 }
 
 // This gets called twice per block, when buffer is half full and completely full
@@ -163,6 +175,8 @@ void AudioOutputI2S::isr(void)
 		dest = (int32_t *)&i2s_tx_buffer[AUDIO_BLOCK_SAMPLES / 2];
 		callUpdate = true;
 		offset = AUDIO_BLOCK_SAMPLES / 2;
+
+        if(!inUpdates) NVIC_SET_PENDING(IRQ_SOFTWARE);
 	}
 	else
 	{

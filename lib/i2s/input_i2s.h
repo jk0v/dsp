@@ -36,6 +36,7 @@ public:
 	AudioInputI2S() { }
 	void begin();
 	static int32_t** getData();
+
 protected:	
 	static DMAChannel dma;
 	static void isr(void);

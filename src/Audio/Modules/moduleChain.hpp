@@ -4,11 +4,13 @@
 #include <TeensyTimerTool.h>
 #include "audioModule.hpp"
 
+void updateCallback();
+
 namespace Audio
 {
     namespace Modules
     {
-        void updateCallback();
+        
 
         typedef struct Connection
         {
@@ -46,14 +48,15 @@ namespace Audio
 
             void loadChainFromFile(const char* filePath = "default.chn");
             
-            friend void updateCallback();     
+            friend void updateCallback();
 
             private:
             Module* modules[MAX_MODULES];
             Connection connections[MAX_CONNECTIONS];
             int16_t modIndex, connIndex;
+            // TeensyTimerTool::PeriodicTimer updateClock;
+            // IntervalTimer updateClock;
 
-            TeensyTimerTool::PeriodicTimer updateClock;
         };
         
         // void deserializeModFile(char* filePath);

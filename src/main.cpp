@@ -9,14 +9,11 @@
 #include "Audio/Modules/moduleChain.hpp"
 #include "Audio/Modules/serialModule.hpp"
 
-// AudioOutputI2S i2sOut;
-// AudioInputI2S i2sIn;
+
+Audio::Modules::InputI2S inI2S;
+Audio::Modules::OutputI2S outI2S;
 Audio::Modules::ModuleChain modChain;
 
-Audio::Modules::OutputI2S outI2S;
-Audio::Modules::InputI2S inI2S;
-
-// Audio::Modules::SerialModule serMod;
 
 
 void init()
@@ -33,15 +30,15 @@ void init()
 
     // debug (callbacks)
     pinMode(35, OUTPUT);
-    digitalToggle(35);
+    pinMode(34, OUTPUT);
+    // digitalToggle(35);
+    // digitalToggle(37);
 
     // put ADC and DAC in reset mode
     digitalWrite(ADDA_RST_PIN, 0);
     digitalWrite(STATUS_PIN, 1);
     
     // I2S init
-    // i2sOut.begin();
-    // i2sIn.begin();
     outI2S.init();
     inI2S.init();
 
@@ -100,6 +97,6 @@ void setup()
 
 void loop()
 {
-        Serial.printf("%d\n", inI2S.outputBuffers[0].data[0][0]);
-        delayMicroseconds(500);
+    // Serial.printf("%d\n", inI2S.outputBuffers[0].data[0][0]);
+    // delayMicroseconds(500);
 }

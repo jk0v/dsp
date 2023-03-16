@@ -31,6 +31,10 @@
 #include "buffer_queue.h"
 
 extern void (*i2sAudioCallback)(int32_t** inputs, int32_t** outputs);
+extern void (*modUpdateCallback)();
+
+extern bool inUpdates;
+extern void setupModInterrupt();
 
 class AudioOutputI2S
 {

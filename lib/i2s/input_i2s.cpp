@@ -26,11 +26,15 @@
 
 #include "input_i2s.h"
 #include "../../include/conf.h"
+#include "output_i2s.h"
 
 DMAMEM __attribute__((aligned(32))) static uint64_t i2s_rx_buffer[AUDIO_BLOCK_SAMPLES];
 BufferQueue AudioInputI2S::buffers;
 DMAChannel AudioInputI2S::dma(false);
 int32_t *outBuffers[2]; // temporary holder for the values returned by getData
+
+// extern bool inUpdates;
+// extern void setupModInterrupt();
 
 void AudioInputI2S::begin()
 {
@@ -93,6 +97,8 @@ void AudioInputI2S::begin()
         }
     }
 	
+    inUpdates = true;
+    setupModInterrupt();
 }
 
 int32_t **AudioInputI2S::getData()
@@ -120,6 +126,8 @@ void AudioInputI2S::isr(void)
 		src = (int32_t *)&i2s_rx_buffer[AUDIO_BLOCK_SAMPLES / 2];
 		offset = AUDIO_BLOCK_SAMPLES / 2;
 		incrementQueue = true;
+
+        if(inUpdates) NVIC_SET_PENDING(IRQ_SOFTWARE);
 	}
 	else
 	{

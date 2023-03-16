@@ -4,6 +4,7 @@
 #include "Layer.h"
 
 // inspired by https://github.com/jatinchowdhury18/RTNeural/blob/main/RTNeural/lstm/lstm.h and https://github.com/GuitarML/Proteus/blob/main/src/RTNeuralLSTM.cpp
+// gucken ob float weights kompatibel mit int daten (vorkonvertierung)
 namespace NN
 {
     namespace LSTM

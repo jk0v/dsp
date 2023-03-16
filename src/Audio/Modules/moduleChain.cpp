@@ -1,6 +1,13 @@
 #include "moduleChain.hpp"
+#include "TeensyTimerTool.h"
+#include "output_i2s.h"
 // #include "util.h"
+
 extern Audio::Modules::ModuleChain modChain;
+// extern bool inUpdates;
+// extern void setupModInterrupt();
+
+
 
 namespace Audio
 {
@@ -9,19 +16,18 @@ namespace Audio
         // unfinished
         void updateCallback()
         {
-            // for(auto i=0; i<=modChain.connIndex; i++)
-            // {   
-            //     if(modChain.connections[i].src->getStatus() == UNFINISHED)
-            //     {
-            //         modChain.connections[i].src->update();
-            //     }
-            //     if(modChain.connections[i].dest->getStatus() == UNFINISHED)
-            //     {
-            //         modChain.connections[i].dest->update();
-            //     }
-            // }
-            // Serial.println("DAta woo!");
-            digitalToggle(35);
+            for(auto i=0; i<=modChain.connIndex; i++)
+            {   
+                if(modChain.connections[i].src->getStatus() == UNFINISHED)
+                {
+                    modChain.connections[i].src->update();
+                }
+                if(modChain.connections[i].dest->getStatus() == UNFINISHED)
+                {
+                    modChain.connections[i].dest->update();
+                }
+            }
+            digitalToggleFast(34);
         }
 
         void ModuleChain::addModule(Module* mod)
@@ -79,13 +85,12 @@ namespace Audio
             
         }
 
-
-
         ModuleChain::ModuleChain()
         {
             modIndex = 0;
             connIndex = 0;
 
+            modUpdateCallback = updateCallback;
             // updateClock.begin(updateCallback, MODULE_LOOP_DUR);
         }
         ModuleChain::ModuleChain(ModuleType* preset)
