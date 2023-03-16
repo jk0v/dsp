@@ -24,7 +24,7 @@ namespace Audio
             protected:
             float gains[MAX_MODULE_IO];
 
-            UpdateStatus update() override;
+            void update() override;
 
             private:
             AudioOutputI2S i2sOut;

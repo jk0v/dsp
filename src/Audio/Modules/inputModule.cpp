@@ -14,13 +14,13 @@ namespace Audio
             status = UpdateStatus::UNFINISHED;
         }
 
-        UpdateStatus InputI2S::update()
+        void InputI2S::update()
         {
-            if(status != UNFINISHED && updateCount > 0) { return UpdateStatus::PASSING; }
-            data.cpyTo(&outputBuffers[0]);
+            // if(status != UNFINISHED && updateCount > 0) { return UpdateStatus::PASSING; }
+            // data.cpyTo(&outputBuffers[0]);
+            // digitalToggleFast(35);
 
             status = UpdateStatus::UNFINISHED;
-            return UpdateStatus::FINISHED;
         }
     }
 }

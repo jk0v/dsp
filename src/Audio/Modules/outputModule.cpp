@@ -38,12 +38,12 @@ namespace Audio
             // outB.cpyTo(out);
             // memcpy(out, in, sizeof(int32_t)*AUDIO_BLOCK_SAMPLES*2);
 
-            // inI2S.data.setFrom(in);
+            // inI2S.data.setFromMono(in);
             inI2S.outputBuffers[0].setFromMono(in);
-            // outI2S.data.cpyTo(out);
+            // outI2S.data.cpyToMono(out);
             outI2S.inputBuffers[0]->cpyToMono(out);
             // NVIC_SET_PENDING(IRQ_SOFTWARE);
-            digitalToggleFast(35);
+            // digitalToggleFast(35);
 
             // for(auto i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
             // {
@@ -61,7 +61,7 @@ namespace Audio
             type = ModuleType::OUT_I2S;
         }
 
-        UpdateStatus OutputI2S::update()
+        void OutputI2S::update()
         {
             // TODO: module chain keeps track of how many mods
             
@@ -70,15 +70,12 @@ namespace Audio
             // {
             //     data.add(&inputBuffers[i], MAX_MODULE_IO);
             // }
+            // digitalToggleFast(35);
 
-            if(status == UpdateStatus::FINISHED)
-            {
-                return UpdateStatus::FINISHED;
-            }
-            data.setFrom(inputBuffers[0]);
+            // data.setFrom(inputBuffers[0]);
+            // digitalToggleFast(35);
 
-            status = UpdateStatus::FINISHED;
-            return status;
+            status = UpdateStatus::UNFINISHED;
         }
     }
 }

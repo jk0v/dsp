@@ -13,6 +13,7 @@ namespace Audio
     typedef struct Block
     {
         int32_t data[2][AUDIO_BLOCK_SAMPLES];
+        bool used;
 
         void cpyTo(Block* dest)
         {
@@ -78,6 +79,51 @@ namespace Audio
                 data[0][i] = src[0][i]; 
                 data[1][i] = src[0][i]; 
             }
+        }
+        void setFromWithGain(float gain, Block* src)
+        {
+            if(gain==1.f)
+            {
+                setFrom(src);
+                return;
+            }
+            if(gain==0.f)
+            {
+                memset(src->data, 0, AUDIO_BLOCK_SAMPLES*2);
+                return;
+            }
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            {
+                data[0][i] = src->data[0][i] * gain; 
+                data[1][i] = src->data[1][i] * gain; 
+            }
+        }
+        void setFromWithGain(float gain, int32_t** src)
+        {
+            if(gain==1.f)
+            {
+                setFrom(src);
+                return;
+            }
+            if(gain==0.f)
+            {
+                memset(src, 0, AUDIO_BLOCK_SAMPLES*2);
+                return;
+            }
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            {
+                data[0][i] = src[0][i] * gain; 
+                data[1][i] = src[1][i] * gain; 
+            }
+        }
+
+        void setUsed(bool val)
+        {
+            used = val;
+        }
+        bool getUsed()
+        {
+            return used;
         }
         
         // // maybe unsafe
@@ -146,14 +192,14 @@ namespace Audio
 
             ModuleType getType(){return type;}
             UpdateStatus getStatus(){return status;}
-            int16_t getIndex(){return index;}
+            // int16_t getIndex(){return index;}
             
-            virtual UpdateStatus update() {return UpdateStatus::UNFINISHED;}
+            virtual void update() {}
 
             friend class ModuleChain;
 
             protected:
-            Block data;
+            // Block data;
 
             Block* inputBuffers[MAX_MODULE_IO];
             Block outputBuffers[MAX_MODULE_IO];
@@ -164,9 +210,6 @@ namespace Audio
             ModuleType type;
             UpdateStatus status;
             int16_t updateCount;
-
-            int16_t index;
-
         };
     }
 }

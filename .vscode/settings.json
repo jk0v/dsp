@@ -19,7 +19,9 @@
         "*.s": "cpp",
         "deque": "cpp",
         "unordered_map": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp"
     },
     "workbench.editor.tabSizing": "shrink",
     "workbench.editorAssociations": {

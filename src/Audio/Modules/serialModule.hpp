@@ -15,7 +15,7 @@ namespace Audio
 
             void init() override;
 
-            UpdateStatus update() override;
+            void update() override;
         };
     }
 }

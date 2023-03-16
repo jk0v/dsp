@@ -41,7 +41,7 @@ namespace Audio
             ~ModuleChain(){}
 
             void addModule(Module* mod);
-            void addConnection(Module* src, Module* dest);
+            void addConnection(Module* src, int16_t srcIndex, Module* dest, int16_t destIndex);
 
             void removeModule(Module* mod);
             void removeConnection(Connection* conn);

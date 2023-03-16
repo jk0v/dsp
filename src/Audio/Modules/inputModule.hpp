@@ -20,7 +20,7 @@ namespace Audio
             
             friend void audioCallback(int32_t** in, int32_t** out);
             
-            UpdateStatus update() override;
+            void update() override;
             
             protected:
             Block input;

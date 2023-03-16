@@ -11,7 +11,7 @@ namespace Audio
             Serial.println("Begin");
         }
 
-        UpdateStatus SerialModule::update()
+        void SerialModule::update()
         {
             // Serial.printf("Data");
             // return UNFINISHED;

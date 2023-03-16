@@ -7,13 +7,13 @@
 #include "Audio/Modules/outputModule.hpp"
 #include "Audio/Modules/inputModule.hpp"
 #include "Audio/Modules/moduleChain.hpp"
-#include "Audio/Modules/serialModule.hpp"
+#include "Audio/Modules/mixModule.hpp"
 
 
+Audio::Modules::ModuleChain modChain;
 Audio::Modules::InputI2S inI2S;
 Audio::Modules::OutputI2S outI2S;
-Audio::Modules::ModuleChain modChain;
-
+Audio::Modules::MixModule mixer;
 
 
 void init()
@@ -70,9 +70,13 @@ void modChainTest()
 {
     modChain.addModule(&inI2S);
     modChain.addModule(&outI2S);
-    // modChain.addModule(&serMod);
-    modChain.addConnection(&inI2S, &outI2S);
-    // modChain.addConnection(&inI2S, &serMod);
+    modChain.addModule(&mixer);
+    mixer.setGain(0, 5.f);
+
+    modChain.addConnection(&inI2S, 0, &mixer, 0);
+    modChain.addConnection(&mixer, 0, &outI2S, 0);
+    
+    // modChain.addConnection(&inI2S, 0, &outI2S, 0);
 }
 
 // void test(int32_t** in, int32_t** out)

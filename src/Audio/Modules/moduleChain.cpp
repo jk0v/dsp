@@ -18,16 +18,20 @@ namespace Audio
         {
             for(auto i=0; i<=modChain.connIndex; i++)
             {   
-                if(modChain.connections[i].src->getStatus() == UNFINISHED)
-                {
-                    modChain.connections[i].src->update();
-                }
-                if(modChain.connections[i].dest->getStatus() == UNFINISHED)
-                {
-                    modChain.connections[i].dest->update();
-                }
+                digitalToggleFast(34);
+                // if(modChain.connections[i].src->getStatus() == UNFINISHED)
+                // {
+                //     // digitalToggleFast(35);
+                //     modChain.connections[i].src->update();
+                // }
+                // if(modChain.connections[i].dest->getStatus() == UNFINISHED)
+                // {
+                //     // digitalToggleFast(35);
+                //     modChain.connections[i].dest->update();
+                // }
+                modChain.connections[i].src->update();
+                modChain.connections[i].dest->update();
             }
-            digitalToggleFast(34);
         }
 
         void ModuleChain::addModule(Module* mod)
@@ -41,12 +45,16 @@ namespace Audio
                 // throwError("Maximum amount of modules reached.", 0);
             }
         }
-        void ModuleChain::addConnection(Module* src, Module* dest)
+        void ModuleChain::addConnection(Module* src, int16_t srcIndex, Module* dest, int16_t destIndex)
         {
-            if(src->index <= MAX_MODULE_IO && dest->index <= MAX_MODULE_IO)
+            if(srcIndex <= MAX_MODULE_IO && destIndex <= MAX_MODULE_IO)
             {
-                dest->inputBuffers[dest->index] = &src->outputBuffers[src->index];
-                connections[connIndex].init(src, dest, src->index, dest->index);
+                dest->inputBuffers[destIndex] = &src->outputBuffers[srcIndex];
+                connections[connIndex].init(src, dest, srcIndex, destIndex);
+
+                dest->inputBuffers[destIndex]->setUsed(true);
+
+                connIndex++;
             } else
             {
                 // throwError("Maximum amount of connections reached.", 0);
@@ -61,6 +69,7 @@ namespace Audio
                 {
                     modules[i] = nullptr;
                     delete(mod);
+                    modIndex--;
                     return;
                 }
             }
@@ -72,8 +81,12 @@ namespace Audio
             {
                 if(&connections[i] == conn)
                 {
+                    conn->dest->inputBuffers[conn->srcIndex]->setUsed(false);
+
                     conn->dest->inputBuffers[conn->srcIndex] = conn->dest->inputBuffers[conn->destIndex];
                     conn->destr();
+
+                    connIndex--;
                     return;
                 }
             }
