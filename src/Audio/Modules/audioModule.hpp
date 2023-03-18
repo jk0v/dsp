@@ -17,7 +17,7 @@ namespace Audio
 
         void cpyTo(Block* dest)
         {
-            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 dest->data[0][i] = data[0][i]; 
                 dest->data[1][i] = data[1][i]; 
@@ -25,7 +25,7 @@ namespace Audio
         }
         void cpyTo(int32_t** dest)
         {
-            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 dest[0][i] = data[0][i]; 
                 dest[1][i] = data[1][i]; 
@@ -33,7 +33,7 @@ namespace Audio
         }
         void cpyToMono(Block* dest)
         {
-            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 dest->data[0][i] = data[0][i];
                 dest->data[1][i] = data[0][i];
@@ -41,7 +41,7 @@ namespace Audio
         }
         void cpyToMono(int32_t** dest)
         {
-            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 dest[0][i] = data[0][i];
                 dest[1][i] = data[0][i];
@@ -50,7 +50,7 @@ namespace Audio
 
         void setFrom(Block* src)
         {
-            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 data[0][i] = src->data[0][i]; 
                 data[1][i] = src->data[1][i]; 
@@ -58,7 +58,7 @@ namespace Audio
         }
         void setFrom(int32_t** src)
         {
-            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 data[0][i] = src[0][i]; 
                 data[1][i] = src[1][i]; 
@@ -66,7 +66,7 @@ namespace Audio
         }
         void setFromMono(Block* src)
         {
-            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 data[0][i] = src->data[0][i]; 
                 data[1][i] = src->data[0][i]; 
@@ -74,7 +74,7 @@ namespace Audio
         }
         void setFromMono(int32_t** src)
         {
-            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 data[0][i] = src[0][i]; 
                 data[1][i] = src[0][i]; 
@@ -92,7 +92,7 @@ namespace Audio
                 memset(src->data, 0, AUDIO_BLOCK_SAMPLES*2);
                 return;
             }
-            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 data[0][i] = src->data[0][i] * gain; 
                 data[1][i] = src->data[1][i] * gain; 
@@ -110,7 +110,7 @@ namespace Audio
                 memset(src, 0, AUDIO_BLOCK_SAMPLES*2);
                 return;
             }
-            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 data[0][i] = src[0][i] * gain; 
                 data[1][i] = src[1][i] * gain; 
@@ -148,7 +148,7 @@ namespace Audio
 
         void add(Block* src, int32_t normalize = 1)
         {
-            for(auto i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i = 0; i < AUDIO_BLOCK_SAMPLES; ++i)
             {
 
                 this->data[0][i] += src->data[0][i] / normalize;
@@ -157,7 +157,7 @@ namespace Audio
         }
         void add(int32_t** src, int32_t normalize = 1)
         {
-            for(auto i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+            for(auto i = 0; i < AUDIO_BLOCK_SAMPLES; ++i)
             {
                 this->data[0][i] += src[0][i] / normalize;
                 this->data[1][i] += src[1][i] / normalize;

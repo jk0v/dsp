@@ -143,7 +143,7 @@ void AudioInputI2S::isr(void)
 	dest_left = &(left[offset]);
 	dest_right = &(right[offset]);
 
-	for (size_t i = 0; i < AUDIO_BLOCK_SAMPLES / 2; i++)
+	for (size_t i = 0; i < AUDIO_BLOCK_SAMPLES / 2; ++i)
 	{
 		dest_left[i] = src[2 * i];
 		dest_right[i] = src[2 * i + 1];

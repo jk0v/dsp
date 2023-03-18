@@ -21,7 +21,9 @@
         "unordered_map": "cpp",
         "vector": "cpp",
         "functional": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "numeric": "cpp",
+        "cmath": "cpp"
     },
     "workbench.editor.tabSizing": "shrink",
     "workbench.editorAssociations": {

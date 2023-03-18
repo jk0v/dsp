@@ -6,11 +6,11 @@ namespace Audio
     {
         MixModule::MixModule()
         {
-            for(int i=0; i<MAX_MODULE_IO; i++)
+            for(int i=0; i<MAX_MODULE_IO; ++i)
             {
                 gains[i] = 1.f;
             }
-            for(int i=0; i<AUDIO_BLOCK_SAMPLES; i++)
+            for(int i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 outputBuffers[0].data[0][i] = 0;
                 outputBuffers[0].data[1][i] = 0;
@@ -18,7 +18,7 @@ namespace Audio
         }
         MixModule::MixModule(float gain)
         {
-            for(int i=0; i<MAX_MODULE_IO; i++)
+            for(int i=0; i<MAX_MODULE_IO; ++i)
             {
                 gains[i] = gain;
             }
@@ -34,7 +34,7 @@ namespace Audio
         {
             digitalToggleFast(34);
             // __disable_irq();
-            // for(int i=0; i<MAX_MODULE_IO; i++)
+            // for(int i=0; i<MAX_MODULE_IO; ++i)
             // {
             //     // if(inputBuffers[i]->getUsed())
             //     // {

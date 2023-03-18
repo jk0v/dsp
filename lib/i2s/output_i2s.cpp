@@ -43,7 +43,7 @@ DMAChannel AudioOutputI2S::dma(false);
 
 // void audioCallbackPassthrough(int32_t **inputs, int32_t **outputs)
 // {
-// 	for (size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+// 	for (size_t i = 0; i < AUDIO_BLOCK_SAMPLES; ++i)
 // 	{
 // 		outputs[0][i] = inputs[0][i];
 // 		outputs[1][i] = inputs[1][i];
@@ -191,7 +191,7 @@ void AudioOutputI2S::isr(void)
 	blockL = buffers.readPtr[0];
 	blockR = buffers.readPtr[1];
 
-	for (size_t i = 0; i < AUDIO_BLOCK_SAMPLES / 2; i++)
+	for (size_t i = 0; i < AUDIO_BLOCK_SAMPLES / 2; ++i)
 	{
 		dest[2 * i] = blockL[i + offset];
 		dest[2 * i + 1] = blockR[i + offset];
@@ -202,7 +202,7 @@ void AudioOutputI2S::isr(void)
 	if (callUpdate)
 	{
 		// Timers::ResetFrame();
-        digitalToggleFast(35);
+        digitalToggleFast(34);
 
 		// We've finished reading all the data from the current read block
 		buffers.consume();
@@ -216,7 +216,7 @@ void AudioOutputI2S::isr(void)
 
 		// publish the block
 		buffers.publish();
-        digitalToggleFast(35);
+        digitalToggleFast(34);
 		// Timers::LapInner(Timers::TIMER_TOTAL);
 	}
 }

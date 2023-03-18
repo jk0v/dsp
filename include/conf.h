@@ -15,7 +15,8 @@
 #define MODULE_LOOP_DUR abs((((float)AUDIO_BLOCK_SAMPLES/(float)SAMPLERATE)*1000000.f)) // 1000000us
 
 // misc
-#define MAX_FILELENGTH 1024
+#define MAX_FILELENGTH 8192
+#define NN_HIDDEN_SIZE 40
 
 
 // i2s

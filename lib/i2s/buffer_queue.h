@@ -21,13 +21,13 @@ public:
 		writePtr[1] = &dataRight[writePos * AUDIO_BLOCK_SAMPLES];
 		readPtr[0] = &dataLeft[readPos * AUDIO_BLOCK_SAMPLES];
 		readPtr[1] = &dataRight[readPos * AUDIO_BLOCK_SAMPLES];
-        for (size_t i = 0; i < AUDIO_BLOCK_SAMPLES * BUFFER_QUEUE_SIZE; i++)
+        for (size_t i = 0; i < AUDIO_BLOCK_SAMPLES * BUFFER_QUEUE_SIZE; ++i)
         {
             dataLeft[i] = 0;
             dataRight[i] = 0;
         }
         
-        for (size_t i = 0; i < BUFFER_QUEUE_SIZE - 1; i++)
+        for (size_t i = 0; i < BUFFER_QUEUE_SIZE - 1; ++i)
         {
             publish();
         }

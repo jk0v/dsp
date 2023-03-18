@@ -16,7 +16,7 @@ namespace Audio
         // unfinished
         void updateCallback()
         {
-            for(int i=0; i<modChain.connIndex; i++)
+            for(int i=0; i<modChain.connIndex; ++i)
             {
                 // if(modChain.connections[i].src->getStatus() == UNFINISHED)
                 // {
@@ -63,7 +63,7 @@ namespace Audio
         
         void ModuleChain::removeModule(Module* mod)
         {
-            for(auto i=0; i<MAX_MODULES; i++)
+            for(auto i=0; i<MAX_MODULES; ++i)
             {
                 if(modules[i] == mod)
                 {
@@ -77,7 +77,7 @@ namespace Audio
         }
         void ModuleChain::removeConnection(Connection* conn)
         {
-            for(auto i=0; i<MAX_MODULES; i++)
+            for(auto i=0; i<MAX_MODULES; ++i)
             {
                 if(&connections[i] == conn)
                 {
