@@ -16,22 +16,22 @@ namespace Audio
         // unfinished
         void updateCallback()
         {
-            for(auto i=0; i<=modChain.connIndex; i++)
-            {   
-                digitalToggleFast(34);
+            for(int i=0; i<modChain.connIndex; i++)
+            {
                 // if(modChain.connections[i].src->getStatus() == UNFINISHED)
                 // {
-                //     // digitalToggleFast(35);
                 //     modChain.connections[i].src->update();
                 // }
                 // if(modChain.connections[i].dest->getStatus() == UNFINISHED)
                 // {
-                //     // digitalToggleFast(35);
                 //     modChain.connections[i].dest->update();
                 // }
+                
                 modChain.connections[i].src->update();
                 modChain.connections[i].dest->update();
+
             }
+            asm("DSB");
         }
 
         void ModuleChain::addModule(Module* mod)

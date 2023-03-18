@@ -22,8 +22,7 @@ namespace Audio
             
             void update() override;
             
-            protected:
-            Block input;
+            Block* input;
 
 
             private:

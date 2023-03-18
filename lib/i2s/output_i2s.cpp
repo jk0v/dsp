@@ -57,6 +57,7 @@ static bool inUpdates = false;
 
 static void setupModInterrupt()
 {
+    // if(inUpdates) return;
     attachInterruptVector(IRQ_SOFTWARE, modUpdateCallback);
     NVIC_SET_PRIORITY(IRQ_SOFTWARE, 208);
     NVIC_ENABLE_IRQ(IRQ_SOFTWARE);
@@ -150,8 +151,8 @@ void AudioOutputI2S::begin()
             break;
         }
     }
-    inUpdates = false;
-    setupModInterrupt();
+    // setupModInterrupt();
+    // inUpdates = false;
 }
 
 // This gets called twice per block, when buffer is half full and completely full
@@ -176,7 +177,7 @@ void AudioOutputI2S::isr(void)
 		callUpdate = true;
 		offset = AUDIO_BLOCK_SAMPLES / 2;
 
-        if(!inUpdates) NVIC_SET_PENDING(IRQ_SOFTWARE);
+        // if(!inUpdates) NVIC_SET_PENDING(IRQ_SOFTWARE);
 	}
 	else
 	{
@@ -200,7 +201,8 @@ void AudioOutputI2S::isr(void)
 
 	if (callUpdate)
 	{
-		Timers::ResetFrame();
+		// Timers::ResetFrame();
+        digitalToggleFast(35);
 
 		// We've finished reading all the data from the current read block
 		buffers.consume();
@@ -210,10 +212,12 @@ void AudioOutputI2S::isr(void)
 
 		// populate the next block
 		i2sAudioCallback(dataInPtr, buffers.writePtr);
+        // if(!inUpdates) NVIC_SET_PENDING(IRQ_SOFTWARE);
+
 		// publish the block
 		buffers.publish();
-
-		Timers::LapInner(Timers::TIMER_TOTAL);
+        digitalToggleFast(35);
+		// Timers::LapInner(Timers::TIMER_TOTAL);
 	}
 }
 

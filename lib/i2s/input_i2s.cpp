@@ -97,8 +97,8 @@ void AudioInputI2S::begin()
         }
     }
 	
-    inUpdates = true;
-    setupModInterrupt();
+    // inUpdates = true;
+    // setupModInterrupt();
 }
 
 int32_t **AudioInputI2S::getData()
@@ -127,7 +127,7 @@ void AudioInputI2S::isr(void)
 		offset = AUDIO_BLOCK_SAMPLES / 2;
 		incrementQueue = true;
 
-        if(inUpdates) NVIC_SET_PENDING(IRQ_SOFTWARE);
+        // if(inUpdates) NVIC_SET_PENDING(IRQ_SOFTWARE);
 	}
 	else
 	{

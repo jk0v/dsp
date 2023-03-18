@@ -10,8 +10,6 @@ namespace Audio
 {
     namespace Modules
     {
-        
-
         typedef struct Connection
         {
             Module* src;

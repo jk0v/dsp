@@ -8,12 +8,15 @@
 #include "Audio/Modules/inputModule.hpp"
 #include "Audio/Modules/moduleChain.hpp"
 #include "Audio/Modules/mixModule.hpp"
+#include "i2s_timers.h"
 
 
 Audio::Modules::ModuleChain modChain;
 Audio::Modules::InputI2S inI2S;
 Audio::Modules::OutputI2S outI2S;
 Audio::Modules::MixModule mixer;
+
+int acc = 0;
 
 
 void init()
@@ -71,7 +74,7 @@ void modChainTest()
     modChain.addModule(&inI2S);
     modChain.addModule(&outI2S);
     modChain.addModule(&mixer);
-    mixer.setGain(0, 5.f);
+    mixer.setGain(0, 25.f);
 
     modChain.addConnection(&inI2S, 0, &mixer, 0);
     modChain.addConnection(&mixer, 0, &outI2S, 0);
@@ -103,4 +106,6 @@ void loop()
 {
     // Serial.printf("%d\n", inI2S.outputBuffers[0].data[0][0]);
     // delayMicroseconds(500);
+    // Serial.printf("period: %f ms\n", Timers::GetAvgPeriod()/1000);
+    // delay(500);
 }

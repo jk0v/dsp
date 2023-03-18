@@ -1,5 +1,6 @@
 #include "LSTM.h"
 #include <arm_math.h>
+#include "NNMath/NNMath.h"
 #include <string.h>
 
 namespace NN
@@ -19,7 +20,7 @@ namespace NN
         template <typename T, int inSize, int outSize>
         inline void LSTMLayer<T, inSize, outSize>::forward(const T (&inState)[inSize])
         {
-            
+            arm_mat_mult_fast_q15()
         }
     }
 }

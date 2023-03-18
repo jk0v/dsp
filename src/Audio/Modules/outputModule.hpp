@@ -21,10 +21,9 @@ namespace Audio
             
             friend void audioCallback(int32_t** in, int32_t** out);
 
-            protected:
-            float gains[MAX_MODULE_IO];
-
             void update() override;
+
+            Block output;
 
             private:
             AudioOutputI2S i2sOut;

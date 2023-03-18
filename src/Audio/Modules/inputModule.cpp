@@ -17,10 +17,10 @@ namespace Audio
         void InputI2S::update()
         {
             // if(status != UNFINISHED && updateCount > 0) { return UpdateStatus::PASSING; }
-            // data.cpyTo(&outputBuffers[0]);
-            // digitalToggleFast(35);
+            // input.cpyTo(&outputBuffers[0]);
+            // // digitalToggleFast(35);
 
-            status = UpdateStatus::UNFINISHED;
+            // status = UpdateStatus::UNFINISHED;
         }
     }
 }

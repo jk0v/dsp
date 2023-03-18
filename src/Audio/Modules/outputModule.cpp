@@ -1,9 +1,12 @@
 #include "outputModule.hpp"
+#include "mixModule.hpp"
 #include <arm_math.h>
 // #include "util.h"
 
 extern Audio::Modules::OutputI2S outI2S;
 extern Audio::Modules::InputI2S inI2S;
+extern Audio::Modules::MixModule mixer;
+extern int acc;
 
 namespace Audio
 {
@@ -38,10 +41,12 @@ namespace Audio
             // outB.cpyTo(out);
             // memcpy(out, in, sizeof(int32_t)*AUDIO_BLOCK_SAMPLES*2);
 
-            // inI2S.data.setFromMono(in);
-            inI2S.outputBuffers[0].setFromMono(in);
-            // outI2S.data.cpyToMono(out);
-            outI2S.inputBuffers[0]->cpyToMono(out);
+            // inI2S.input.setFromMono(in);
+                inI2S.outputBuffers[0].setFromMono(in);
+                // mixer.update();
+            modUpdateCallback();
+            // outI2S.output.cpyToMono(out);
+                outI2S.inputBuffers[0]->cpyToMono(out);
             // NVIC_SET_PENDING(IRQ_SOFTWARE);
             // digitalToggleFast(35);
 
@@ -49,6 +54,15 @@ namespace Audio
             // {
             //     out[0][i] = in[0][i]<<6;
             //     out[1][i] = in[0][i]<<6;
+            // }
+            // for (size_t i = 0; i < AUDIO_BLOCK_SAMPLES; i++)
+            // {
+            //     int sig = (int)(arm_sin_f32(acc * 0.01f * 2.0f * M_PI) * 1000000000.0f);
+            //     out[0][i] = in[0][i] + sig;
+            //     out[1][i] = in[0][i] + sig;
+            //     acc++;
+            //     if (acc >= 100)
+            //     acc -= 100;
             // }
         }
 
@@ -74,8 +88,9 @@ namespace Audio
 
             // data.setFrom(inputBuffers[0]);
             // digitalToggleFast(35);
+            // output.setFrom(inputBuffers[0]);
 
-            status = UpdateStatus::UNFINISHED;
+            // status = UpdateStatus::UNFINISHED;
         }
     }
 }
