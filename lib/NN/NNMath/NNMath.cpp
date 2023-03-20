@@ -82,10 +82,10 @@ namespace NN
         }
 
         // probably very inefficient...
-        float32_t sigmoidF32(const float32_t* in)
+        float sigmoidF32(float& in)
         {
             // return (tanh(*in/2)+1)/2;
-            return 1/(1+expf(-(*in)));
+            return 1/(1+expf(-(in)));
         }    
 
         // inline void matVecMultF32(float (&const vec)[], const uint16_t vecSize, float (&const mat)[], const uint16_t matSizeR, const uint16_t matSizeC, float (&out)[], const uint16_t outSize)
