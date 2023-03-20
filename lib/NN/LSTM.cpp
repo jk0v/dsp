@@ -6,63 +6,63 @@ namespace NN
 {
     namespace LSTM
     {
-        template <int32_t inSize, int32_t outSize>
-        LSTMLayerF32<inSize, outSize>::LSTMLayerF32()
-        {
-            for(int i = 0; i < outSize; ++i)
-            {
-                // single-input kernel weights
-                Wf_1[i] = (float) 0;
-                Wi_1[i] = (float) 0;
-                Wo_1[i] = (float) 0;
-                Wc_1[i] = (float) 0;
+        // template <int32_t inSize, int32_t outSize>
+        // LSTMLayerF32<inSize, outSize>::LSTMLayerF32()
+        // {
+        //     for(int i = 0; i < outSize; ++i)
+        //     {
+        //         // single-input kernel weights
+        //         Wf_1[i] = (float) 0;
+        //         Wi_1[i] = (float) 0;
+        //         Wo_1[i] = (float) 0;
+        //         Wc_1[i] = (float) 0;
 
-                // biases
-                bf[i] = (float) 0;
-                bi[i] = (float) 0;
-                bo[i] = (float) 0;
-                bc[i] = (float) 0;
+        //         // biases
+        //         bf[i] = (float) 0;
+        //         bi[i] = (float) 0;
+        //         bo[i] = (float) 0;
+        //         bc[i] = (float) 0;
 
-                // intermediate vars
-                ft[i] = (float) 0;
-                it[i] = (float) 0;
-                ot[i] = (float) 0;
-                ht[i] = (float) 0;
-            }
+        //         // intermediate vars
+        //         ft[i] = (float) 0;
+        //         it[i] = (float) 0;
+        //         ot[i] = (float) 0;
+        //         ht[i] = (float) 0;
+        //     }
 
-            for(int i = 0; i < outSize; ++i)
-            {
-                // recurrent weights
-                for(int j = 0; j < outSize; ++j)
-                {
-                    Uf[i][j] = (float) 0;
-                    Ui[i][j] = (float) 0;
-                    Uo[i][j] = (float) 0;
-                    Uc[i][j] = (float) 0;
-                }
+        //     for(int i = 0; i < outSize; ++i)
+        //     {
+        //         // recurrent weights
+        //         for(int j = 0; j < outSize; ++j)
+        //         {
+        //             Uf[i][j] = (float) 0;
+        //             Ui[i][j] = (float) 0;
+        //             Uo[i][j] = (float) 0;
+        //             Uc[i][j] = (float) 0;
+        //         }
 
-                // kernel weights
-                for(int j = 0; j < inSize; ++j)
-                {
-                    Wf[i][j] = (float) 0;
-                    Wi[i][j] = (float) 0;
-                    Wo[i][j] = (float) 0;
-                    Wc[i][j] = (float) 0;
-                }
-            }
+        //         // kernel weights
+        //         for(int j = 0; j < inSize; ++j)
+        //         {
+        //             Wf[i][j] = (float) 0;
+        //             Wi[i][j] = (float) 0;
+        //             Wo[i][j] = (float) 0;
+        //             Wc[i][j] = (float) 0;
+        //         }
+        //     }
             
-            this.reset();
-        }
+        //     this.reset();
+        // }
 
-        template <int32_t inSize, int32_t outSize>
-        void LSTMLayerF32<inSize, outSize>::reset()
-        {
-            for(int i=0; i< outSize; ++i)
-            {
-                ct[i] = (float) 0;
-                outState[i] = (float) 0;
-            }
-        }
+        // template <int32_t inSize, int32_t outSize>
+        // void LSTMLayerF32<inSize, outSize>::reset()
+        // {
+        //     for(int i=0; i< outSize; ++i)
+        //     {
+        //         ct[i] = (float) 0;
+        //         outState[i] = (float) 0;
+        //     }
+        // }
 
         template <int32_t inSize, int32_t outSize>
         void LSTMLayerF32<inSize, outSize>::setWWeights(const float (&wVals)[inSize][4*outSize])

@@ -24,7 +24,10 @@ namespace NN
         void arm_nn_activation_s16(const int16_t *input, int16_t *output, const uint16_t size, const uint16_t left_shift, const arm_nn_activation_type type);
 
         // self
-        inline float sigmoidF32(float& in) noexcept;
+        inline float sigmoidF32(float in) noexcept
+        {
+            return 1/(1+expf(-(in)));
+        }
         // inline void matVecMultF32(const float vec[], const uint16_t vecSize, const float (**mat), const uint16_t matSizeR, const uint16_t matSizeC, float (&out)[], const uint16_t outSize) noexcept;
     }
 }

@@ -18,15 +18,67 @@ namespace NN
         class LSTMLayerF32
         {
             public:
-            LSTMLayerF32();
+            void reset()
+            {
+                for(int i=0; i< outSize; ++i)
+                {
+                    ct[i] = (float) 0;
+                    outState[i] = (float) 0;
+                }
+            }
+            LSTMLayerF32()
+            {
+                for(int i = 0; i < outSize; ++i)
+                {
+                    // single-input kernel weights
+                    Wf_1[i] = (float) 0;
+                    Wi_1[i] = (float) 0;
+                    Wo_1[i] = (float) 0;
+                    Wc_1[i] = (float) 0;
+
+                    // biases
+                    bf[i] = (float) 0;
+                    bi[i] = (float) 0;
+                    bo[i] = (float) 0;
+                    bc[i] = (float) 0;
+
+                    // intermediate vars
+                    ft[i] = (float) 0;
+                    it[i] = (float) 0;
+                    ot[i] = (float) 0;
+                    ht[i] = (float) 0;
+                }
+
+                for(int i = 0; i < outSize; ++i)
+                {
+                    // recurrent weights
+                    for(int j = 0; j < outSize; ++j)
+                    {
+                        Uf[i][j] = (float) 0;
+                        Ui[i][j] = (float) 0;
+                        Uo[i][j] = (float) 0;
+                        Uc[i][j] = (float) 0;
+                    }
+
+                    // kernel weights
+                    for(int j = 0; j < inSize; ++j)
+                    {
+                        Wf[i][j] = (float) 0;
+                        Wi[i][j] = (float) 0;
+                        Wo[i][j] = (float) 0;
+                        Wc[i][j] = (float) 0;
+                    }
+                }
+                
+                this->reset();
+            }
             ~LSTMLayerF32() {}
 
-            void reset();
 
-            static inline void recurrMatMult(const float (&vec)[outSize], const float (&mat)[outSize][outSize], float (&out)[outSize]) noexcept
+            static inline void recurrMatMult(float (&vec)[outSize], float (&mat)[outSize][outSize], float (&out)[outSize]) noexcept
             {
                 digitalToggleFast(35);
-                const arm_matrix_instance_f32 tmpMat = {outSize, 1, mat};        
+                const arm_matrix_instance_f32 tmpMat = {outSize, 1, (float32_t*)mat};        
                 const arm_matrix_instance_f32 tmpVec = {outSize, 1, vec};
                 arm_matrix_instance_f32 tmpOut = {outSize, 1, out};
 
@@ -40,7 +92,7 @@ namespace NN
                 recurrMatMult(outState, Uc, ht);
                 for(int i=0; i<outSize; ++i)
                 {
-                    ct[i] = it[i] * tanhf(ht[i] + bc[i] + (Wc_1[i] * inState[0])) + ft[i] * ct[i];
+                    ct[i] = it[i] * tanhf(ht[i] + bc[i] + (Wc_1[i] * inState)) + ft[i] * ct[i];
                 }
                 // compute output
                 for(int i=0; i<outSize; ++i)
@@ -70,7 +122,7 @@ namespace NN
                     ot[i] = NN::Math::sigmoidF32(ot[i] + bo[i] + (Wo_1[i] * inState));
                 }
                 
-                computeOutputs(&inState);
+                computeOutputs(inState);
             }
             // sets the layer kernel weights
             void setWWeights(const float (&wVals)[inSize][4*outSize]);
