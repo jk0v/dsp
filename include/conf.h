@@ -18,6 +18,9 @@
 #define MAX_FILELENGTH 8192
 #define NN_HIDDEN_SIZE 40
 
+// i2c
+#define I2C_ADDRESS 0x20
+
 
 // i2s
 #define ADDA_I2S_INTERFACE 2

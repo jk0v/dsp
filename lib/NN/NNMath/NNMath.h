@@ -24,7 +24,7 @@ namespace NN
 
         // self
         inline float32_t sigmoidF32(const float32_t* in) noexcept;
-        inline void matVecMultF32(float* (&vec), const uint16_t vecSize, float** (&mat), const uint16_t matSizeR, const uint16_t matSizeC, float* (&out), const uint16_t outSize) noexcept;
+        // inline void matVecMultF32(const float vec[], const uint16_t vecSize, const float (**mat), const uint16_t matSizeR, const uint16_t matSizeC, float (&out)[], const uint16_t outSize) noexcept;
     }
 }
 #endif

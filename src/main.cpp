@@ -2,29 +2,36 @@
 #include <SPI.h>
 #include <SD.h>
 #include <arm_math.h>
+#include <Wire.h>
 #include "conf.h"
 #include "util.h"
 #include "Audio/Modules/outputModule.hpp"
 #include "Audio/Modules/inputModule.hpp"
 #include "Audio/Modules/moduleChain.hpp"
 #include "Audio/Modules/mixModule.hpp"
-#include "Audio/Modules/NNModule.hpp"
+// #include "Audio/Modules/NNModule.hpp"
 #include "i2s_timers.h"
+#include "IO/i2cComm.hpp"
 
 
 Audio::Modules::ModuleChain modChain;
 Audio::Modules::InputI2S inI2S;
 Audio::Modules::OutputI2S outI2S;
 // Audio::Modules::MixModule mixer;
-Audio::Modules::NNModule nnMod;
+// Audio::Modules::NNModule nnMod;
 
 int acc = 0;
 
 
 void init()
 {
-    Serial.begin(115200);
-    Serial.println("Hello");
+    // Serial.begin(115200);
+    
+    // i2c
+    Wire.begin(I2C_ADDRESS);
+    Wire.onReceive(IO::i2cRecCallback);
+    Wire.onRequest(IO::i2cReqCallback);
+
     // configure pins
     pinMode(AD_CS_PIN, OUTPUT);
     pinMode(DA_CS_PIN, OUTPUT);
@@ -76,12 +83,12 @@ void modChainTest()
     modChain.addModule(&inI2S);
     modChain.addModule(&outI2S);
     // modChain.addModule(&mixer);
-    modChain.addModule(&nnMod);
+    // modChain.addModule(&nnMod);
     // mixer.setGain(0, 25.f);
 
-    modChain.addConnection(&inI2S, 0, &nnMod, 0);
+    // modChain.addConnection(&inI2S, 0, &nnMod, 0);
     // modChain.addConnection(&inI2S, 0, &mixer, 0);
-    modChain.addConnection(&nnMod, 0, &outI2S, 0);
+    // modChain.addConnection(&nnMod, 0, &outI2S, 0);
     
     // modChain.addConnection(&inI2S, 0, &outI2S, 0);
 }

@@ -88,16 +88,16 @@ namespace NN
             return 1/(1+expf(-(*in)));
         }    
 
-        inline void matVecMultF32(float* (&vec), const uint16_t vecSize, float** (&mat), const uint16_t matSizeR, const uint16_t matSizeC, float* (&out), const uint16_t outSize)
-        {
-            digitalToggle(35);
-            const arm_matrix_instance_f32 tmpMat = {outSize, 1, *mat};        
-            const arm_matrix_instance_f32 tmpVec = {outSize, 1, vec};
-            arm_matrix_instance_f32 tmpOut = {outSize, 1, out};
+        // inline void matVecMultF32(float (&const vec)[], const uint16_t vecSize, float (&const mat)[], const uint16_t matSizeR, const uint16_t matSizeC, float (&out)[], const uint16_t outSize)
+        // {
+        //     digitalToggle(35);
+        //     const arm_matrix_instance_f32 tmpMat = {outSize, 1, mat};        
+        //     const arm_matrix_instance_f32 tmpVec = {outSize, 1, vec};
+        //     arm_matrix_instance_f32 tmpOut = {outSize, 1, out};
 
-            arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
-            digitalToggle(35);
-        }             
+        //     arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
+        //     digitalToggle(35);
+        // }             
 
     }
 }
