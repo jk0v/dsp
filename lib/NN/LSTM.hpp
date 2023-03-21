@@ -77,13 +77,13 @@ namespace NN
 
             static inline void recurrMatMult(float (&vec)[outSize], float (&mat)[outSize][outSize], float (&out)[outSize]) noexcept
             {
-                digitalToggleFast(35);
+                // digitalToggleFast(35);
                 const arm_matrix_instance_f32 tmpMat = {outSize, 1, (float32_t*)mat};        
                 const arm_matrix_instance_f32 tmpVec = {outSize, 1, vec};
                 arm_matrix_instance_f32 tmpOut = {outSize, 1, out};
 
                 arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
-                digitalToggleFast(35);
+                // digitalToggleFast(35);
             }
             static inline void kernelMatMult(const float (&vec)[inSize], const float (&mat)[outSize][inSize], float (&out)[outSize]) noexcept{}
             inline void computeOutputs(float (&inState)) noexcept
@@ -125,11 +125,44 @@ namespace NN
                 computeOutputs(inState);
             }
             // sets the layer kernel weights
-            void setWWeights(const float (&wVals)[inSize][4*outSize]);
+            void setWWeights(const float (&wVals)[inSize][4*outSize])
+            {
+                for(int i=0; i<inSize; ++i)
+                {
+                    for(int j=0; j<outSize; ++j)
+                    {
+                        Wi[j][i] = wVals[i][j];
+                        Wf[j][i] = wVals[i][j + outSize];
+                        Wc[j][i] = wVals[i][j + 2 * outSize];
+                        Wo[j][i] = wVals[i][j + 3 * outSize];
+                    }
+                }
+            }
             // sets the layer recurrent weights
-            void setUWeights(const float (&uVals)[outSize][4*outSize]);
+            void setUWeights(const float (&uVals)[outSize][4*outSize])
+            {
+                for(int i=0; i<outSize; ++i)
+                {
+                    for(int j=0; j<outSize; ++j)
+                    {
+                        Ui[j][i] = uVals[i][j];
+                        Uf[j][i] = uVals[i][j + outSize];
+                        Uc[j][i] = uVals[i][j + 2 * outSize];
+                        Uo[j][i] = uVals[i][j + 3 * outSize];
+                    }
+                }
+            }
             // sets the layer bias
-            void setBWeights(const float (&bVals)[4*outSize]);
+            void setBWeights(const float (&bVals)[4*outSize])
+            {
+                for(int i=0; i<outSize; ++i)
+                {
+                    bi[i] = bVals[i];
+                    bf[i] = bVals[i + outSize];
+                    bc[i] = bVals[i + 2 * outSize];
+                    bo[i] = bVals[i + 3 * outSize];
+                }
+            }
 
             float outState[outSize];
             private:

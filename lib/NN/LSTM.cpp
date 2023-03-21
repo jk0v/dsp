@@ -64,45 +64,45 @@ namespace NN
         //     }
         // }
 
-        template <int32_t inSize, int32_t outSize>
-        void LSTMLayerF32<inSize, outSize>::setWWeights(const float (&wVals)[inSize][4*outSize])
-        {
-            for(int i=0; i<inSize; ++i)
-            {
-                for(int j=0; j<outSize; ++j)
-                {
-                    Wi[j][i] = wVals[i][j];
-                    Wf[j][i] = wVals[i][j + outSize];
-                    Wc[j][i] = wVals[i][j + 2 * outSize];
-                    Wo[j][i] = wVals[i][j + 3 * outSize];
-                }
-            }
-        }
-        template <int32_t inSize, int32_t outSize>
-        void LSTMLayerF32<inSize, outSize>::setUWeights(const float (&uVals)[outSize][4*outSize])
-        {
-            for(int i=0; i<outSize; ++i)
-            {
-                for(int j=0; j<outSize; ++j)
-                {
-                    Ui[j][i] = uVals[i][j];
-                    Uf[j][i] = uVals[i][j + outSize];
-                    Uc[j][i] = uVals[i][j + 2 * outSize];
-                    Uo[j][i] = uVals[i][j + 3 * outSize];
-                }
-            }
-        }
-        template <int32_t inSize, int32_t outSize>
-        void LSTMLayerF32<inSize, outSize>::setBWeights(const float (&bVals)[4*outSize])
-        {
-            for(int i=0; i<outSize; ++i)
-            {
-                bi[i] = bVals[i];
-                bf[i] = bVals[i + outSize];
-                bc[i] = bVals[i + 2 * outSize];
-                bo[i] = bVals[i + 3 * outSize];
-            }
-        }
+        // template <int32_t inSize, int32_t outSize>
+        // void LSTMLayerF32<inSize, outSize>::setWWeights(const float (&wVals)[inSize][4*outSize])
+        // {
+        //     for(int i=0; i<inSize; ++i)
+        //     {
+        //         for(int j=0; j<outSize; ++j)
+        //         {
+        //             Wi[j][i] = wVals[i][j];
+        //             Wf[j][i] = wVals[i][j + outSize];
+        //             Wc[j][i] = wVals[i][j + 2 * outSize];
+        //             Wo[j][i] = wVals[i][j + 3 * outSize];
+        //         }
+        //     }
+        // }
+        // template <int32_t inSize, int32_t outSize>
+        // void LSTMLayerF32<inSize, outSize>::setUWeights(const float (&uVals)[outSize][4*outSize])
+        // {
+        //     for(int i=0; i<outSize; ++i)
+        //     {
+        //         for(int j=0; j<outSize; ++j)
+        //         {
+        //             Ui[j][i] = uVals[i][j];
+        //             Uf[j][i] = uVals[i][j + outSize];
+        //             Uc[j][i] = uVals[i][j + 2 * outSize];
+        //             Uo[j][i] = uVals[i][j + 3 * outSize];
+        //         }
+        //     }
+        // }
+        // template <int32_t inSize, int32_t outSize>
+        // void LSTMLayerF32<inSize, outSize>::setBWeights(const float (&bVals)[4*outSize])
+        // {
+        //     for(int i=0; i<outSize; ++i)
+        //     {
+        //         bi[i] = bVals[i];
+        //         bf[i] = bVals[i + outSize];
+        //         bc[i] = bVals[i + 2 * outSize];
+        //         bo[i] = bVals[i + 3 * outSize];
+        //     }
+        // }
         
         // for inSize==1
         // template <int32_t inSize, int32_t outSize>

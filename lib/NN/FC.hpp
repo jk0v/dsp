@@ -59,13 +59,13 @@ namespace NN
 
             inline void matMult(float (&vec)[inSize], float (&mat)[inSize]/*[outSize]*/, float (&out)[outSize])
             {
-                digitalToggleFast(35);
+                // digitalToggleFast(35);
                 const arm_matrix_instance_f32 tmpMat = {outSize, 1, mat};        
                 const arm_matrix_instance_f32 tmpVec = {outSize, 1, vec};
                 arm_matrix_instance_f32 tmpOut = {outSize, 1, out};
 
                 arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
-                digitalToggleFast(35);
+                // digitalToggleFast(35);
             }
 
             float outState[outSize];

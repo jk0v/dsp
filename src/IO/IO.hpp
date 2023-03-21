@@ -13,9 +13,9 @@ namespace IO
 
         void init()
         {
-            Serial1.setTX(ESP_UART_TX_PIN)
+            // Serial1.setTX(ESP_UART_TX_PIN)
         }
-    }
+    };
 }
 
 #endif

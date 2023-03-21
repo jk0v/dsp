@@ -202,7 +202,8 @@ void AudioOutputI2S::isr(void)
 	if (callUpdate)
 	{
 		// Timers::ResetFrame();
-        digitalToggleFast(34);
+        // digitalToggleFast(34);
+        digitalWriteFast(34, 1);
 
 		// We've finished reading all the data from the current read block
 		buffers.consume();
@@ -216,7 +217,8 @@ void AudioOutputI2S::isr(void)
 
 		// publish the block
 		buffers.publish();
-        digitalToggleFast(34);
+        // digitalToggleFast(34);
+        digitalWriteFast(34, 0);
 		// Timers::LapInner(Timers::TIMER_TOTAL);
 	}
 }

@@ -32,7 +32,7 @@ namespace Audio
         
         void MixModule::update()
         {
-            digitalToggleFast(34);
+            // digitalToggleFast(34);
             // __disable_irq();
             // for(int i=0; i<MAX_MODULE_IO; ++i)
             // {
