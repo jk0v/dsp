@@ -9,3 +9,5 @@
 #define MAX_MENU_NODES 10
 
 #define MAX_STRING_LENGTH 20
+
+#define UART_BAUD 115200

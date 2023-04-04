@@ -1,4 +1,5 @@
 #include "mixModule.hpp"
+#include <arm_math.h>
 
 namespace Audio
 {
@@ -42,7 +43,19 @@ namespace Audio
             //     // }
             // }
             // __disable_irq();
+
             outputBuffers[0].setFromWithGain(gains[0], inputBuffers[0]);
+
+            // for(int i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
+            // {
+            //     float normL = (float)inputBuffers[0]->data[0][i] / F32_NORM_MAX;
+            //     float normR = (float)inputBuffers[0]->data[1][i] / F32_NORM_MAX;
+            //     outputBuffers[0].data[0][i] = (int32_t)(normL * F32_NORM_MAX * gains[0]);
+            //     outputBuffers[0].data[1][i] = (int32_t)(normR * F32_NORM_MAX * gains[0]);
+            // }
+
+            // arm_scale_q31((q31_t*)inputBuffers[0]->data, (q31_t)25, 0, (q31_t *)inputBuffers[0]->data, AUDIO_BLOCK_SAMPLES*2);
+            // arm_scale_f32((float*)inputBuffers[0]->data, gains[0], (float*)inputBuffers[0]->data, AUDIO_BLOCK_SAMPLES*2);
             // outputBuffers[0].setFrom(inputBuffers[0]);
             // __enable_irq();
         }

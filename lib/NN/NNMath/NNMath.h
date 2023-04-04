@@ -3,6 +3,8 @@
 #define NN_MATH_H
 #include <stdint.h>
 #include <arm_math.h>
+#include <dspinst.h>
+#include <Arduino.h>
 #include "NNMathUtil.h"
 
 namespace NN
@@ -26,7 +28,9 @@ namespace NN
         // self
         inline float sigmoidF32(float in) noexcept
         {
-            return 1/(1+expf(-(in)));
+            // return 1/(1+expf(-(in))); // slow af (264ns)
+            return 0.5f+(in/(3+((in <= 0) ? in : -in))); // alot faster (ca. 36ns), but only approx. (1-o. tayl.s.)
+            // return 0.5*tanhf(0.5*in) + 0.5; // even slower
         }
         // inline void matVecMultF32(const float vec[], const uint16_t vecSize, const float (**mat), const uint16_t matSizeR, const uint16_t matSizeC, float (&out)[], const uint16_t outSize) noexcept;
     }

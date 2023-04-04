@@ -28,7 +28,7 @@ namespace Audio
                 // }
                 
                 modChain.connections[i].src->update();
-                modChain.connections[i].dest->update();
+                // modChain.connections[i].dest->update(); // doubles
 
             }
             asm("DSB");

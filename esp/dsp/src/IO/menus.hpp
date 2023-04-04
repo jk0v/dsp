@@ -5,6 +5,7 @@
 
 namespace IO
 {
+    class Menu;
     enum MenuType
     {
         MODULE_VIEW
@@ -60,7 +61,7 @@ namespace IO
     class ModuleViewMenu : public Menu
     {
         public:
-        ModuleViewMenu(ModuleType* modules);
+        ModuleViewMenu(ModuleType* modules, int amountModules);
         ~ModuleViewMenu(){}
 
         void display() override;
@@ -68,11 +69,11 @@ namespace IO
         // void onEncoder() override;
         // void transmitI2C() override;
 
-        void requestModulesI2C();
+        void requestModulesI2C(int addr);
 
         private:
         MenuNode modNodes[MAX_MENU_NODES];
         char modData[MAX_MENU_NODES*MAX_STRING_LENGTH];
-    }
+    };
 }
 #endif

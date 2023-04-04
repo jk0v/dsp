@@ -4,21 +4,21 @@
 namespace IO
 {
     // MenuNode
-    void MenuNode::init(const char* string, Menu* subMenu)
+    void MenuNode::init(const char string[MAX_STRING_LENGTH], Menu* subMenu)
     {
-        this->string = string;
+        strstr((char*)this->string, string);
         this->subMenu = subMenu;
     }
     // ModValue
     void ModValue::init(char string[MAX_STRING_LENGTH], int initVal)
     {
-        this->string = string;
+        strstr((char*)this->string, string);
         this->val = initVal;
     }
     // ModuleNode
     void ModuleNode::init(const char* title, Menu* subMenu)
     {
-        this->title = title;
+        strstr((char*)this->title, title);
         this->subMenu = subMenu;
     }
 
@@ -31,6 +31,6 @@ namespace IO
     
     void ModuleViewMenu::requestModulesI2C(int addr)
     {
-        Wire.requestFrom()
+        // Wire.requestFrom()
     } 
 }

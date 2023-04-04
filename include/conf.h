@@ -17,9 +17,13 @@
 // misc
 #define MAX_FILELENGTH 8192
 #define NN_HIDDEN_SIZE 40
+#define F32_NORM_MAX (float) (INT32_MAX) // prob. bad idea
 
 // i2c
 #define I2C_ADDRESS 0x20
+
+// UART
+#define UART_BAUD 115200
 
 
 // i2s

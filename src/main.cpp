@@ -17,11 +17,10 @@
 Audio::Modules::ModuleChain modChain;
 Audio::Modules::InputI2S inI2S;
 Audio::Modules::OutputI2S outI2S;
-// Audio::Modules::MixModule mixer;
-Audio::Modules::NNModule nnMod;
+Audio::Modules::MixModule mixer;
+// Audio::Modules::NNModule nnMod;
 
 int acc = 0;
-
 
 void init()
 {
@@ -31,6 +30,9 @@ void init()
     // Wire.begin(I2C_ADDRESS);
     // Wire.onReceive(IO::i2cRecCallback);
     // Wire.onRequest(IO::i2cReqCallback);
+
+    // UART
+    Serial1.begin(UART_BAUD, SERIAL_8N1);
 
     // configure pins
     pinMode(AD_CS_PIN, OUTPUT);
@@ -82,14 +84,16 @@ void modChainTest()
 {
     modChain.addModule(&inI2S);
     modChain.addModule(&outI2S);
-    // modChain.addModule(&mixer);
-    modChain.addModule(&nnMod);
-    // mixer.setGain(0, 25.f);
+    modChain.addModule(&mixer);
+    // modChain.addModule(&nnMod);
+    mixer.setGain(0, 25.f);
     
 
-    modChain.addConnection(&inI2S, 0, &nnMod, 0);
-    // modChain.addConnection(&inI2S, 0, &mixer, 0);
-    modChain.addConnection(&nnMod, 0, &outI2S, 0);
+    // modChain.addConnection(&inI2S, 0, &nnMod, 0);
+    modChain.addConnection(&inI2S, 0, &mixer, 0);
+
+    // modChain.addConnection(&nnMod, 0, &outI2S, 0);
+    modChain.addConnection(&mixer, 0, &outI2S, 0);
     
     // modChain.addConnection(&inI2S, 0, &outI2S, 0);
 }
@@ -100,7 +104,18 @@ void setup()
     modChainTest();
 }
 
+float inc = 0.f;
+float gain = 10.f;
+
 void loop()
 {
-    
+    if(Serial1.available() > 0)
+    {
+        gain = (float)Serial1.read();
+        // Serial.println(gain);
+        mixer.setGain(0, gain);
+    }
+    // mixer.setGain(0, maxGain*cosf(inc*6.28));
+    // delay(2000);
+    // inc += 0.1f;
 }
