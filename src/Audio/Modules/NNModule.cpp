@@ -14,7 +14,7 @@ namespace Audio
             for(int i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 // inBuffer[i] = (float)inputBuffers[0]->data[0][i]; // not normalized
-                inBuffer[i] = (float)inputBuffers[0]->data[0][i] / F32_NORM_MAX; 
+                inBuffer[i] = (float)inputBuffers[0]->data[0][i] / F24_NORM_MAX; 
             }
             // digitalToggleFast(35);
 

@@ -15,8 +15,8 @@ void writeADCRegister(uint8_t regAddr, uint8_t data)
     digitalWrite(PGA_CS_PIN, 1);
     digitalWrite(DA_CS_PIN, 1);
     digitalWrite(AD_CS_PIN, 0); // pull CS low to start communication
-
-    SPI.transfer(0b0111001); // chip address in write mode
+    delayMicroseconds(1);
+    SPI.transfer(0b01111001); // chip address in write mode
     SPI.transfer(regAddr); // send MAP address
     SPI.transfer(data); // send data
 

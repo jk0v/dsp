@@ -25,12 +25,27 @@ namespace NN
          */
         void arm_nn_activation_s16(const int16_t *input, int16_t *output, const uint16_t size, const uint16_t left_shift, const arm_nn_activation_type type);
 
+        // sigmoid/tanh activation for 24bit values using 1024 entry lut
+        // void activationI24(const int32_t *input, int32_t *output, const uint16_t size, const uint16_t left_shift,const arm_nn_activation_type type);
+        void activationI24(int32_t input, float *output, const uint16_t left_shift, const arm_nn_activation_type type);
+
         // self
-        inline float sigmoidF32(float in) noexcept
+        // inline float sigmoidF32(float in) noexcept
+        // {
+        //     return 1.f/(1.f+expf(-(in))); // slow af (264ns)
+        //     // return (in <= )0.5f+(in/(3+((in <= 0) ? in : -in))); // alot faster (ca. 36ns), but only approx. (1-o. tayl.s.)
+        //     // return 0.5f*tanhf(0.5f*in) + 0.5f; // even slower
+        // }
+        inline void sigmoidF32(float in, float* out) noexcept
         {
-            // return 1/(1+expf(-(in))); // slow af (264ns)
-            return 0.5f+(in/(3+((in <= 0) ? in : -in))); // alot faster (ca. 36ns), but only approx. (1-o. tayl.s.)
-            // return 0.5*tanhf(0.5*in) + 0.5; // even slower
+            // *out = 1.f/(1.f+expf(-(in))); // slow af (264ns)
+            // *out = /*(in >= 4.f) ? 1.f : */0.5f+(in/(3.f+((in <= 0.f) ? in : -in))); // alot faster (ca. 36ns), but only approx. (1-o. tayl.s.)
+            *out = /*(in >= 4.f) ? 1.f :*/ 0.5f+(in/(3.f+fabsf(in))); // alot faster (ca. 52ns), but only approx. (1-o. tayl.s.)
+            // return 0.5f*tanhf(0.5f*in) + 0.5f; // even slower
+        }
+        inline void tanhF32(float in, float* out) noexcept
+        {
+            *out = 2.f/(1+expf(-2.f*in))-1;
         }
         // inline void matVecMultF32(const float vec[], const uint16_t vecSize, const float (**mat), const uint16_t matSizeR, const uint16_t matSizeC, float (&out)[], const uint16_t outSize) noexcept;
     }

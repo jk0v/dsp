@@ -17,7 +17,7 @@
 // misc
 #define MAX_FILELENGTH 8192
 #define NN_HIDDEN_SIZE 40
-#define F32_NORM_MAX (float) (INT32_MAX) // prob. bad idea
+#define F24_NORM_MAX (float) (0x7FFFFF) // prob. bad idea#
 
 // i2c
 #define I2C_ADDRESS 0x20
@@ -28,6 +28,7 @@
 
 // i2s
 #define ADDA_I2S_INTERFACE 2
+#define I2S_TDM_AUDIO_CHANNEL 8
 
 // pins
 // ADC: I2S1
@@ -92,7 +93,7 @@
 
 #define SPI_MOSI_PIN PIN_SPI_MOSI
 #define SPI_MISO_PIN PIN_SPI_MISO
-#define SPI_SCLK_PIN 27 // SCK1
+#define SPI_SCLK_PIN PIN_SPI_SCK /*27*/ // SCK1
 #define DA_CS_PIN 28 // active low
 #define AD_CS_PIN 29 // active low
 #define PGA_CS_PIN 30 // active low

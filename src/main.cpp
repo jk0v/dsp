@@ -17,10 +17,9 @@
 Audio::Modules::ModuleChain modChain;
 Audio::Modules::InputI2S inI2S;
 Audio::Modules::OutputI2S outI2S;
-Audio::Modules::MixModule mixer;
-// Audio::Modules::NNModule nnMod;
+// Audio::Modules::MixModule mixer;
+Audio::Modules::NNModule nnMod;
 
-int acc = 0;
 
 void init()
 {
@@ -32,29 +31,57 @@ void init()
     // Wire.onRequest(IO::i2cReqCallback);
 
     // UART
-    Serial1.begin(UART_BAUD, SERIAL_8N1);
+    // Serial1.begin(UART_BAUD, SERIAL_8N1);
 
     // configure pins
     pinMode(AD_CS_PIN, OUTPUT);
     pinMode(DA_CS_PIN, OUTPUT);
     pinMode(PGA_CS_PIN, OUTPUT);
+    digitalWrite(AD_CS_PIN, 1);
+    digitalWrite(DA_CS_PIN, 1);
+    digitalWrite(PGA_CS_PIN, 1);
+
 
     pinMode(ADDA_RST_PIN, OUTPUT);
-    pinMode(STATUS_PIN, OUTPUT);
+    // pinMode(STATUS_PIN, OUTPUT);
 
     // debug (callbacks)
     pinMode(35, OUTPUT);
     pinMode(34, OUTPUT);
-    // digitalToggle(35);
-    // digitalToggle(37);
+    pinMode(37, OUTPUT);
+    digitalToggle(37);
+    
+
+
+    // release ADDA reset
+    digitalWrite(ADDA_RST_PIN, 1);
+    delayMicroseconds(100);
+
+    // SPI init
+    // SPI.begin();
+    SPI.setSCK(SPI_SCLK_PIN);
+    SPI.setMOSI(SPI_MOSI_PIN);
+    SPI.setMISO(SPI_MISO_PIN);
+    SPI.begin();
+    digitalToggle(37);
+    digitalWrite(AD_CS_PIN, 1);
+    digitalWrite(DA_CS_PIN, 1);
+    digitalWrite(PGA_CS_PIN, 1);
+
+    // ADC, PGA config
+    writeADCRegister(0x01, 0b11100001); // ADC config: 1:CP-EN = true, 000:MCLKDIV = /1, 01:DIF = I2S, 11:MODE = slave
+    // writeADCRegister(0x01, 0b11010001); // TDM: ADC config: 1:CP-EN = true, 000:MCLKDIV = /1, 10:DIF = TDM, 11:MODE = slave
+    delayMicroseconds(100);
+
 
     // put ADC and DAC in reset mode
     digitalWrite(ADDA_RST_PIN, 0);
-    digitalWrite(STATUS_PIN, 1);
+    // digitalWrite(STATUS_PIN, 1);
     
     // I2S init
     outI2S.init();
     inI2S.init();
+    delayMicroseconds(100);
 
     // serMod.init();
 
@@ -64,36 +91,44 @@ void init()
     //     throwError("SD initialization failed.", 0);
     // }
 
-    // SPI init
-    SPI.begin();
-    SPI.setMOSI(SPI_MOSI_PIN);
-    SPI.setMISO(SPI_MISO_PIN);
-    SPI.setSCK(SPI_SCLK_PIN);
-    
     // release ADDA reset
     digitalWrite(ADDA_RST_PIN, 1);
+    delayMicroseconds(100);
 
-    // ADC, PGA config
-    writeADCRegister(0x01, 0b11100001); // ADC config: 1:CP-EN = true, 000:MCLKDIV = /1, 01:DIF = I2S, 11:MODE = slave
-    writePGAGain((uint8_t)255, (uint8_t)255); // set initial channel gain (192 = 0dB)
+    // // SPI init
+    // // SPI.begin();
+    // SPI.setSCK(SPI_SCLK_PIN);
+    // SPI.setMOSI(SPI_MOSI_PIN);
+    // SPI.setMISO(SPI_MISO_PIN);
+    // SPI.begin();
+    // digitalToggle(37);
+    // digitalWrite(AD_CS_PIN, 1);
+    // digitalWrite(DA_CS_PIN, 1);
+    // digitalWrite(PGA_CS_PIN, 1);
 
-    digitalToggle(STATUS_PIN);
+
+    // // ADC, PGA config
+    // writeADCRegister(0x01, 0b11100001); // ADC config: 1:CP-EN = true, 000:MCLKDIV = /1, 01:DIF = I2S, 11:MODE = slave
+    // writeADCRegister(0x01, 0b11010001); // TDM: ADC config: 1:CP-EN = true, 000:MCLKDIV = /1, 10:DIF = TDM, 11:MODE = slave
+    // writePGAGain((uint8_t)255, (uint8_t)255); // set initial channel gain (192 = 0dB)
+
+    // digitalToggle(STATUS_PIN);
 }
 
 void modChainTest()
 {
     modChain.addModule(&inI2S);
     modChain.addModule(&outI2S);
-    modChain.addModule(&mixer);
-    // modChain.addModule(&nnMod);
-    mixer.setGain(0, 25.f);
+    // modChain.addModule(&mixer);
+    modChain.addModule(&nnMod);
+    // mixer.setGain(0, 25.f);
     
 
-    // modChain.addConnection(&inI2S, 0, &nnMod, 0);
-    modChain.addConnection(&inI2S, 0, &mixer, 0);
+    modChain.addConnection(&inI2S, 0, &nnMod, 0);
+    // modChain.addConnection(&inI2S, 0, &mixer, 0);
 
-    // modChain.addConnection(&nnMod, 0, &outI2S, 0);
-    modChain.addConnection(&mixer, 0, &outI2S, 0);
+    modChain.addConnection(&nnMod, 0, &outI2S, 0);
+    // modChain.addConnection(&mixer, 0, &outI2S, 0);
     
     // modChain.addConnection(&inI2S, 0, &outI2S, 0);
 }
@@ -109,13 +144,10 @@ float gain = 10.f;
 
 void loop()
 {
-    if(Serial1.available() > 0)
-    {
-        gain = (float)Serial1.read();
-        // Serial.println(gain);
-        mixer.setGain(0, gain);
-    }
-    // mixer.setGain(0, maxGain*cosf(inc*6.28));
-    // delay(2000);
-    // inc += 0.1f;
+    // if(Serial1.available() > 0)
+    // {
+    //     gain = (float)Serial1.read();
+    //     // Serial.println(gain);
+    //     mixer.setGain(0, gain);
+    // }
 }

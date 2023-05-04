@@ -72,12 +72,12 @@ namespace Audio
                 data[1][i] = src->data[0][i]; 
             }
         }
-        void setFromMono(int32_t** src)
+        void setFromMono(int32_t** src, bool chn = 0)
         {
             for(auto i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
-                data[0][i] = src[0][i]; 
-                data[1][i] = src[0][i]; 
+                data[0][i] = src[chn][i]; 
+                data[1][i] = src[chn][i]; 
             }
         }
         void setFromWithGain(float gain, Block* src)

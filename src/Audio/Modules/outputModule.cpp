@@ -43,7 +43,7 @@ namespace Audio
 
             // inI2S.input.setFromMono(in);
             digitalToggleFast(35);
-            inI2S.outputBuffers[0].setFromMono(in);
+            inI2S.outputBuffers[0].setFromMono(in, 1);
                 // mixer.update();
             modUpdateCallback();
             // outI2S.output.cpyToMono(out);
