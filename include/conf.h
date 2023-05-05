@@ -17,7 +17,8 @@
 // misc
 #define MAX_FILELENGTH 8192
 #define NN_HIDDEN_SIZE 40
-#define F24_NORM_MAX (float) (0x7FFFFF) // prob. bad idea#
+#define F24_NORM_MAX (float) (0x7FFFFF) // prob. bad idea
+#define ARDUINOJSON_USE_DOUBLE 0
 
 // i2c
 #define I2C_ADDRESS 0x20

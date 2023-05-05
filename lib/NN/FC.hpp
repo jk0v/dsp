@@ -1,8 +1,12 @@
 #pragma once
 #ifndef FC_HPP
 #define FC_HPP
+#define ARDUINOJSON_USE_DOUBLE 0
+
+// #include "../../include/conf.h"
 #include <stdint.h>
 #include <arm_math.h>
+#include <ArduinoJson.h>
 #include "NNMath/NNMath.h"
 
 namespace NN
@@ -33,13 +37,15 @@ namespace NN
             {
                 // NN::Math::matVecMultF32(inState, inSize, weights, outSize, inSize, outState); // probably wrong
                 matMult(inState, weights, outState);
-                for(int i=0; i<outSize; ++i)
-                {
-                    outState[i] += bias[i];
-                }
+                // for(int i=0; i<outSize; ++i)
+                // {
+                //     outState[i] += bias[i];
+                // }
+                arm_add_f32(outState, bias, outState, outSize);
             }
 
-            void setWeights(float** newWeights)
+            // void setWeights(float** newWeights)
+            void setWeights(JsonArray newWeights)
             {
                 for(int i=0; i<outSize; ++i)
                 {
@@ -49,7 +55,8 @@ namespace NN
                     }
                 }
             }
-            void setBias(float* b)
+            // void setBias(float* b)
+            void setBias(JsonArray b)
             {
                 for(int i=0; i<outSize; ++i)
                 {
@@ -97,13 +104,15 @@ namespace NN
             {
                 // NN::Math::matVecMultF32(inState, inSize, weights, outSize, inSize, outState); // probably wrong
                 matMult(inState, weights, outState);
-                for(int i=0; i<outSize; ++i)
-                {
-                    outState[i] += bias[i];
-                }
+                // for(int i=0; i<outSize; ++i)
+                // {
+                //     outState[i] += bias[i];
+                // }
+                arm_add_f32(outState, bias, outState, outSize);
             }
 
-            void setWeights(float** newWeights)
+            // void setWeights(float** newWeights)
+            void setWeights(JsonArray newWeights)
             {
                 for(int i=0; i<outSize; ++i)
                 {
@@ -113,7 +122,8 @@ namespace NN
                     }
                 }
             }
-            void setBias(float* b)
+            // void setBias(float* b)
+            void setBias(JsonArray b)
             {
                 for(int i=0; i<outSize; ++i)
                 {

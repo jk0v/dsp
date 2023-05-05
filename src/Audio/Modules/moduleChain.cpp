@@ -1,5 +1,4 @@
 #include "moduleChain.hpp"
-#include "TeensyTimerTool.h"
 #include "output_i2s.h"
 // #include "util.h"
 
@@ -93,7 +92,7 @@ namespace Audio
             // throwError("Could not remove connection/Connection not in moduleChain.", 0);
         }
 
-        void ModuleChain::loadChainFromFile(const char* filePath = "default.chn")
+        void ModuleChain::loadChainFromFile(char* filePath)
         {
             
         }

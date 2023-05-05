@@ -1,9 +1,13 @@
 #pragma once
 #ifndef NN_LSTM_HPP
 #define NN_LSTM_HPP
+// #include "../../include/conf.h"
+#define ARDUINOJSON_USE_DOUBLE 0
+
 #include <stdint.h>
 #include <Arduino.h>
 #include <arm_math.h>
+#include <ArduinoJson.h>
 #include "NNMath/NNMath.h"
 
 // inspired by https://github.com/jatinchowdhury18/RTNeural/blob/main/RTNeural/lstm/lstm.h and https://github.com/GuitarML/Proteus/blob/main/src/RTNeuralLSTM.cpp
@@ -104,10 +108,10 @@ namespace NN
                     // NN::Math::activationI24((int32_t)(ht[i] + bc[i] + (Wc_1[i] * inState) + ft[i] * ct[i]), &ct[i], 0, 1);
                     // ct[i] *= it[i];
                     
-                    digitalToggleFast(35);
+                    // digitalToggleFast(35);
                     // ct[i] = it[i] * tanhf(ht[i] + bc[i] + (Wc_1[i] * inState)) + ft[i] * ct[i];
                     NN::Math::tanhF32(ht[i] + bc[i] + (Wc_1[i] * inState), &ct[i]);
-                    digitalToggleFast(35);
+                    // digitalToggleFast(35);
                     ct[i] = ct[i] * it[i] + ft[i]*ct[i];
                 }
                 // compute output
@@ -116,7 +120,9 @@ namespace NN
                     // outState[i] = ot[i] * tanhf(ct[i]);
                     // NN::Math::activationI24((int32_t)ct[i], &outState[i], 0, 1);
                     // outState[i] *= ot[i];
-                    outState[i] = ot[i] * tanhf(ct[i]);
+                    // outState[i] = ot[i] * tanhf(ct[i]);
+                    NN::Math::tanhF32(ct[i], &outState[i]);
+                    outState[i] *= ot[i];
                 }
             }
 
@@ -165,36 +171,64 @@ namespace NN
                 
                 computeOutputs(inState);
             }
-            // sets the layer kernel weights
-            void setWWeights(const float (&wVals)[inSize][4*outSize])
+            // sets the layer kernel weights (transpose in here)
+            // void setWWeights(const float (&wVals)[inSize][4*outSize]) (without transpose)
+            // void setWWeights(const float (&wVals)[4*outSize][inSize])
+            void setWWeights(JsonArray wVals)
             {
+                // without transpose
+                // for(int i=0; i<inSize; ++i)
+                // {
+                //     for(int j=0; j<outSize; ++j)
+                //     {
+                //         Wi[j][i] = wVals[i][j];
+                //         Wf[j][i] = wVals[i][j + outSize];
+                //         Wc[j][i] = wVals[i][j + 2 * outSize];
+                //         Wo[j][i] = wVals[i][j + 3 * outSize];
+                //     }
+                // }
                 for(int i=0; i<inSize; ++i)
                 {
                     for(int j=0; j<outSize; ++j)
                     {
-                        Wi[j][i] = wVals[i][j];
-                        Wf[j][i] = wVals[i][j + outSize];
-                        Wc[j][i] = wVals[i][j + 2 * outSize];
-                        Wo[j][i] = wVals[i][j + 3 * outSize];
+                        Wi[j][i] = wVals[j][i];
+                        Wf[j][i] = wVals[j + outSize][i];
+                        Wc[j][i] = wVals[j + 2 * outSize][i];
+                        Wo[j][i] = wVals[j + 3 * outSize][i];
                     }
                 }
             }
-            // sets the layer recurrent weights
-            void setUWeights(const float (&uVals)[outSize][4*outSize])
+            // sets the layer recurrent weights (transpose in here)
+            // void setUWeights(const float (&uVals)[outSize][4*outSize]) (without transpose)
+            // void setUWeights(const float (&uVals)[4*outSize][outSize])
+            void setUWeights(JsonArray uVals)
             {
+                // without transpose
+                // for(int i=0; i<outSize; ++i)
+                // {
+                //     for(int j=0; j<outSize; ++j)
+                //     {
+                //         Ui[j][i] = uVals[i][j];
+                //         Uf[j][i] = uVals[i][j + outSize];
+                //         Uc[j][i] = uVals[i][j + 2 * outSize];
+                //         Uo[j][i] = uVals[i][j + 3 * outSize];
+                //     }
+                // }
                 for(int i=0; i<outSize; ++i)
                 {
                     for(int j=0; j<outSize; ++j)
                     {
-                        Ui[j][i] = uVals[i][j];
-                        Uf[j][i] = uVals[i][j + outSize];
-                        Uc[j][i] = uVals[i][j + 2 * outSize];
-                        Uo[j][i] = uVals[i][j + 3 * outSize];
+                        Ui[j][i] = uVals[j][i];
+                        Uf[j][i] = uVals[j + outSize][i];
+                        Uc[j][i] = uVals[j + 2 * outSize][i];
+                        Uo[j][i] = uVals[j + 3 * outSize][i];
                     }
                 }
+
             }
             // sets the layer bias
-            void setBWeights(const float (&bVals)[4*outSize])
+            // void setBWeights(const float (&bVals)[4*outSize])
+            void setBWeights(JsonArray bVals)
             {
                 for(int i=0; i<outSize; ++i)
                 {

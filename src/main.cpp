@@ -1,18 +1,16 @@
+#include "conf.h"
 #include <Arduino.h>
 #include <SPI.h>
 #include <SD.h>
 #include <arm_math.h>
 #include <Wire.h>
-#include "conf.h"
 #include "util.h"
+#include "i2s_timers.h"
 #include "Audio/Modules/outputModule.hpp"
 #include "Audio/Modules/inputModule.hpp"
 #include "Audio/Modules/moduleChain.hpp"
 #include "Audio/Modules/mixModule.hpp"
 #include "Audio/Modules/NNModule.hpp"
-#include "i2s_timers.h"
-// #include "IO/i2cComm.hpp"
-
 
 Audio::Modules::ModuleChain modChain;
 Audio::Modules::InputI2S inI2S;
@@ -23,8 +21,16 @@ Audio::Modules::NNModule nnMod;
 
 void init()
 {
-    // Serial.begin(115200);
-    
+    Serial.begin(9600);
+    while(!Serial) continue;
+        
+    // SD
+    if(!SD.begin(BUILTIN_SDCARD))
+    {
+        // throwError("SD initialization failed.", 0);
+        // Serial.println("SD Card init failed.");
+    }
+
     // i2c
     // Wire.begin(I2C_ADDRESS);
     // Wire.onReceive(IO::i2cRecCallback);
@@ -71,6 +77,7 @@ void init()
     // ADC, PGA config
     writeADCRegister(0x01, 0b11100001); // ADC config: 1:CP-EN = true, 000:MCLKDIV = /1, 01:DIF = I2S, 11:MODE = slave
     // writeADCRegister(0x01, 0b11010001); // TDM: ADC config: 1:CP-EN = true, 000:MCLKDIV = /1, 10:DIF = TDM, 11:MODE = slave
+    // writePGAGain((uint8_t)255, (uint8_t)255); // set initial channel gain (192 = 0dB)
     delayMicroseconds(100);
 
 
@@ -85,32 +92,11 @@ void init()
 
     // serMod.init();
 
-    // SD init
-    // if(!SD.begin(BUILTIN_SDCARD))
-    // {
-    //     throwError("SD initialization failed.", 0);
-    // }
-
     // release ADDA reset
     digitalWrite(ADDA_RST_PIN, 1);
     delayMicroseconds(100);
 
-    // // SPI init
-    // // SPI.begin();
-    // SPI.setSCK(SPI_SCLK_PIN);
-    // SPI.setMOSI(SPI_MOSI_PIN);
-    // SPI.setMISO(SPI_MISO_PIN);
-    // SPI.begin();
-    // digitalToggle(37);
-    // digitalWrite(AD_CS_PIN, 1);
-    // digitalWrite(DA_CS_PIN, 1);
-    // digitalWrite(PGA_CS_PIN, 1);
-
-
-    // // ADC, PGA config
-    // writeADCRegister(0x01, 0b11100001); // ADC config: 1:CP-EN = true, 000:MCLKDIV = /1, 01:DIF = I2S, 11:MODE = slave
-    // writeADCRegister(0x01, 0b11010001); // TDM: ADC config: 1:CP-EN = true, 000:MCLKDIV = /1, 10:DIF = TDM, 11:MODE = slave
-    // writePGAGain((uint8_t)255, (uint8_t)255); // set initial channel gain (192 = 0dB)
+    Serial.println("Setup finished!");
 
     // digitalToggle(STATUS_PIN);
 }
@@ -121,6 +107,7 @@ void modChainTest()
     modChain.addModule(&outI2S);
     // modChain.addModule(&mixer);
     modChain.addModule(&nnMod);
+    nnMod.loadWeights("/AmpPack1/BlackstarHT40_AmpHighGain.json");
     // mixer.setGain(0, 25.f);
     
 
@@ -136,7 +123,9 @@ void modChainTest()
 void setup()
 {
     init();
+    Serial.println("Going to mod test now.");
     modChainTest();
+    Serial.println("Going to loop now.");
 }
 
 float inc = 0.f;

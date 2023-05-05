@@ -17,7 +17,7 @@ namespace Audio
             ~NNModule(){}
 
             void update() override;
-            void loadWeights();
+            void loadWeights(const char* path);
 
             private:
             float inBuffer[AUDIO_BLOCK_SAMPLES];
@@ -25,8 +25,6 @@ namespace Audio
 
             NN::LSTM::LSTMLayerF32<1, NN_HIDDEN_SIZE> lstm;
             NN::FC::FCLayerF32<NN_HIDDEN_SIZE, 1> fc;
-
-            char weightStringBuf[MAX_FILELENGTH];
         };
     }
 }
