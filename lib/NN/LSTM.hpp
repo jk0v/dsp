@@ -149,7 +149,6 @@ namespace NN
                     // ot[i] = NN::Math::sigmoidF32(ot[i] + bo[i] + (Wo_1[i] * inState));
                     NN::Math::sigmoidF32(ot[i] + bo[i] + (Wo_1[i] * inState), &ot[i]);
                 }
-
                 // // compute ft
                 // recurrMatMult(outState, Uf, ft);
                 // for(int i=0; i<outSize; ++i)

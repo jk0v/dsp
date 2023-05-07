@@ -1,6 +1,8 @@
 #include "NNModule.hpp"
 #include <ArduinoJson.h>
 #include <SD.h>
+#include <dspinst.h>
+#include <arm_math.h>
 
 namespace Audio
 {
@@ -12,26 +14,18 @@ namespace Audio
 
         void NNModule::update()
         {
-            // digitalToggleFast(35);
             for(int i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 // inBuffer[i] = (float)inputBuffers[0]->data[0][i]; // not normalized
-                inBuffer[i] = (float)inputBuffers[0]->data[0][i] / F24_NORM_MAX; 
-            }
-            // digitalToggleFast(35);
+                inBuffer[i] = (float)inputBuffers[0]->data[0][i] * F24_NORM_MAX_INV; 
+            }            
 
-            // digitalToggleFast(34);
             for(int i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
-                // digitalToggleFast(34);
                 lstm.forward(inBuffer[i]);
-                // digitalToggleFast(34);
-                // digitalWriteFast(34, 1);
                 fc.forward(lstm.outState);
-                // digitalWriteFast(34, 0);
                 outputBuffers[0].data[0][i] = (float)fc.outState[0] * F24_NORM_MAX;
             }
-            // digitalToggleFast(34);
         }
 
         void NNModule::loadWeights(const char* path)

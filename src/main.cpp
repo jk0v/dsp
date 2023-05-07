@@ -54,9 +54,7 @@ void init()
     // debug (callbacks)
     pinMode(35, OUTPUT);
     pinMode(34, OUTPUT);
-    pinMode(37, OUTPUT);
-    digitalToggle(37);
-    
+    pinMode(37, OUTPUT);   
 
 
     // release ADDA reset
@@ -64,12 +62,10 @@ void init()
     delayMicroseconds(100);
 
     // SPI init
-    // SPI.begin();
     SPI.setSCK(SPI_SCLK_PIN);
     SPI.setMOSI(SPI_MOSI_PIN);
     SPI.setMISO(SPI_MISO_PIN);
     SPI.begin();
-    digitalToggle(37);
     digitalWrite(AD_CS_PIN, 1);
     digitalWrite(DA_CS_PIN, 1);
     digitalWrite(PGA_CS_PIN, 1);
@@ -107,7 +103,7 @@ void modChainTest()
     modChain.addModule(&outI2S);
     // modChain.addModule(&mixer);
     modChain.addModule(&nnMod);
-    nnMod.loadWeights("/AmpPack1/BlackstarHT40_AmpHighGain.json");
+    // nnMod.loadWeights("/AmpPack1/BlackstarHT40_AmpHighGain.json");
     // mixer.setGain(0, 25.f);
     
 
