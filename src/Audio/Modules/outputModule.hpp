@@ -23,6 +23,9 @@ namespace Audio
 
             void update() override;
 
+            void disableI2S();
+            void enableI2S();
+
             Block output;
 
             private:

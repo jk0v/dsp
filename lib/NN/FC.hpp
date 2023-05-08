@@ -37,11 +37,12 @@ namespace NN
             {
                 // NN::Math::matVecMultF32(inState, inSize, weights, outSize, inSize, outState); // probably wrong
                 matMult(inState, weights, outState);
-                // for(int i=0; i<outSize; ++i)
-                // {
-                //     outState[i] += bias[i];
-                // }
-                arm_add_f32(outState, bias, outState, outSize);
+                for(int i=0; i<outSize; ++i)
+                {
+                    // Serial.printf("val: %.10f\n", outState[i]);
+                    outState[i] += bias[i];
+                }
+                // arm_add_f32(outState, bias, outState, outSize);
             }
 
             // void setWeights(float** newWeights)
@@ -49,7 +50,7 @@ namespace NN
             {
                 for(int i=0; i<outSize; ++i)
                 {
-                    for(int j=0; j<inSize; ++i)
+                    for(int j=0; j<inSize; ++j)
                     {
                         weights[i*inSize+j] = newWeights[i][j];
                     }
@@ -66,12 +67,15 @@ namespace NN
 
             static inline void matMult(float (&vec)[inSize], float (&mat)[inSize]/*[outSize]*/, float (&out)[outSize]) noexcept
             {
-                const arm_matrix_instance_f32 tmpMat = {outSize, 1, mat};        
-                const arm_matrix_instance_f32 tmpVec = {outSize, 1, vec};
+                const arm_matrix_instance_f32 tmpMat = {outSize, inSize, mat};        
+                const arm_matrix_instance_f32 tmpVec = {inSize, 1, vec};
                 arm_matrix_instance_f32 tmpOut = {outSize, 1, out};
 
                 arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
+                // arm_status stat = arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
+                // Serial.printf("MatMultstatus: %d", (int)stat);
             }
+            
 
             float outState[outSize];
 

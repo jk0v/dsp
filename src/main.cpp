@@ -21,8 +21,8 @@ Audio::Modules::NNModule nnMod;
 
 void init()
 {
-    Serial.begin(9600);
-    while(!Serial) continue;
+    // Serial.begin(9600);
+    // while(!Serial) continue;
         
     // SD
     if(!SD.begin(BUILTIN_SDCARD))
@@ -76,23 +76,18 @@ void init()
     // writePGAGain((uint8_t)255, (uint8_t)255); // set initial channel gain (192 = 0dB)
     delayMicroseconds(100);
 
-
     // put ADC and DAC in reset mode
     digitalWrite(ADDA_RST_PIN, 0);
     // digitalWrite(STATUS_PIN, 1);
-    
+
     // I2S init
     outI2S.init();
     inI2S.init();
     delayMicroseconds(100);
 
-    // serMod.init();
-
     // release ADDA reset
     digitalWrite(ADDA_RST_PIN, 1);
     delayMicroseconds(100);
-
-    Serial.println("Setup finished!");
 
     // digitalToggle(STATUS_PIN);
 }
@@ -103,7 +98,12 @@ void modChainTest()
     modChain.addModule(&outI2S);
     // modChain.addModule(&mixer);
     modChain.addModule(&nnMod);
-    // nnMod.loadWeights("/AmpPack1/BlackstarHT40_AmpHighGain.json");
+    
+    nnMod.loadWeights("/AmpPack1/BlackstarHT40_AmpHighGain.json");
+    // float test = 0.5f;
+    // nnMod.test(test);
+    // test = 0.75f;
+    // nnMod.test(test);
     // mixer.setGain(0, 25.f);
     
 
@@ -119,9 +119,7 @@ void modChainTest()
 void setup()
 {
     init();
-    Serial.println("Going to mod test now.");
     modChainTest();
-    Serial.println("Going to loop now.");
 }
 
 float inc = 0.f;

@@ -9,6 +9,7 @@
 #include <arm_math.h>
 #include <ArduinoJson.h>
 #include "NNMath/NNMath.h"
+#include <vector>
 
 // inspired by https://github.com/jatinchowdhury18/RTNeural/blob/main/RTNeural/lstm/lstm.h and https://github.com/GuitarML/Proteus/blob/main/src/RTNeuralLSTM.cpp
 // TODO: gucken ob float weights kompatibel mit int daten (vorkonvertierung)
@@ -81,11 +82,14 @@ namespace NN
 
             static inline void recurrMatMult(float (&vec)[outSize], float (&mat)[outSize][outSize], float (&out)[outSize]) noexcept
             {
-                const arm_matrix_instance_f32 tmpMat = {outSize, 1, (float32_t*)mat};        
+                const arm_matrix_instance_f32 tmpMat = {outSize, outSize, (float*)mat};        
                 const arm_matrix_instance_f32 tmpVec = {outSize, 1, vec};
                 arm_matrix_instance_f32 tmpOut = {outSize, 1, out};
 
+                // arm_status stat = arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
+                // Serial.printf("recMatMultstatus: %d", (int)stat);
                 arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
+                
             }
             static inline void kernelMatMult(const float (&vec)[inSize], const float (&mat)[outSize][inSize], float (&out)[outSize]) noexcept{}
             inline void computeOutputs(float (&inState)) noexcept
@@ -109,20 +113,20 @@ namespace NN
                     // ct[i] *= it[i];
                     
                     // digitalToggleFast(35);
-                    // ct[i] = it[i] * tanhf(ht[i] + bc[i] + (Wc_1[i] * inState)) + ft[i] * ct[i];
-                    NN::Math::tanhF32(ht[i] + bc[i] + (Wc_1[i] * inState), &ct[i]);
-                    // digitalToggleFast(35);
-                    ct[i] = ct[i] * it[i] + ft[i]*ct[i];
+                    ct[i] = it[i] * tanhf(ht[i] + bc[i] + (Wc_1[i] * inState)) + ft[i] * ct[i];
+                    // NN::Math::tanhF32(ht[i] + bc[i] + (Wc_1[i] * inState), &ct[i]);
+                    // // digitalToggleFast(35);
+                    // ct[i] = ct[i] * it[i] + ft[i]*ct[i];
                 }
                 // compute output
                 for(int i=0; i<outSize; ++i)
                 {
-                    // outState[i] = ot[i] * tanhf(ct[i]);
+                    outState[i] = ot[i] * tanhf(ct[i]);
                     // NN::Math::activationI24((int32_t)ct[i], &outState[i], 0, 1);
                     // outState[i] *= ot[i];
                     // outState[i] = ot[i] * tanhf(ct[i]);
-                    NN::Math::tanhF32(ct[i], &outState[i]);
-                    outState[i] *= ot[i];
+                    // NN::Math::tanhF32(ct[i], &outState[i]);
+                    // outState[i] *= ot[i];
                 }
             }
 
@@ -149,6 +153,20 @@ namespace NN
                     // ot[i] = NN::Math::sigmoidF32(ot[i] + bo[i] + (Wo_1[i] * inState));
                     NN::Math::sigmoidF32(ot[i] + bo[i] + (Wo_1[i] * inState), &ot[i]);
                 }
+
+                // // digitalToggleFast(37);
+                // recurrMatMult(outState, Uf, ft);
+                // recurrMatMult(outState, Ui, it);
+                // recurrMatMult(outState, Uo, ot);
+                // for(int i=0; i<outSize; ++i)
+                // {
+                //     // ft[i] = NN::Math::sigmoidF32(ft[i] + bf[i] + (Wf_1[i] * inState));
+                //     NN::Math::sigmoidF32(ft[i] + bf[i] + (Wf_1[i] * inState), &ft[i]);
+                //     NN::Math::sigmoidF32(it[i] + bi[i] + (Wi_1[i] * inState), &it[i]);
+                //     NN::Math::sigmoidF32(ot[i] + bo[i] + (Wo_1[i] * inState), &ot[i]);
+                // }
+                // // digitalToggleFast(37);
+
                 // // compute ft
                 // recurrMatMult(outState, Uf, ft);
                 // for(int i=0; i<outSize; ++i)

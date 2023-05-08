@@ -6,7 +6,6 @@
 extern Audio::Modules::OutputI2S outI2S;
 extern Audio::Modules::InputI2S inI2S;
 extern Audio::Modules::MixModule mixer;
-extern int acc;
 
 namespace Audio
 {
@@ -47,7 +46,8 @@ namespace Audio
                 // mixer.update();
             modUpdateCallback();
             // outI2S.output.cpyToMono(out);
-            outI2S.inputBuffers[0]->cpyToMono(out);
+            // outI2S.inputBuffers[0]->cpyToMono(out);
+            outI2S.inputBuffers[0]->cpyTo(out);
             digitalToggleFast(35);
             // NVIC_SET_PENDING(IRQ_SOFTWARE);
             // digitalToggleFast(35);
@@ -93,6 +93,19 @@ namespace Audio
             // output.setFrom(inputBuffers[0]);
 
             // status = UpdateStatus::UNFINISHED;
+        }
+
+        void OutputI2S::disableI2S()
+        {
+            NVIC_DISABLE_IRQ(IRQ_DMA_CH0);
+            NVIC_DISABLE_IRQ(IRQ_DMA_CH1);
+        }
+        void OutputI2S::enableI2S()
+        {
+            // i2sOut.dma.attachInterrupt(i2sOut.isr);
+            NVIC_ENABLE_IRQ(IRQ_DMA_CH0);
+            NVIC_ENABLE_IRQ(IRQ_DMA_CH1);
+
         }
     }
 }

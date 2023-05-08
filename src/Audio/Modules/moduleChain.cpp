@@ -12,7 +12,6 @@ namespace Audio
 {
     namespace Modules
     {
-        // unfinished
         void updateCallback()
         {
             for(int i=0; i<modChain.connIndex; ++i)

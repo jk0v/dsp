@@ -23,7 +23,10 @@
         "functional": "cpp",
         "tuple": "cpp",
         "numeric": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "istream": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp"
     },
     "workbench.editor.tabSizing": "shrink",
     "workbench.editorAssociations": {

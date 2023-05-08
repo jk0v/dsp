@@ -42,10 +42,10 @@ public:
 	AudioOutputI2S(void) {}
 	void begin(void);
 	friend class AudioInputI2S;
+	static DMAChannel dma;
+	static void isr(void);
 
 protected:
 	static void config_i2s(bool only_bclk = false);
 	static BufferQueue buffers;
-	static DMAChannel dma;
-	static void isr(void);
 };

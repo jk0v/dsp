@@ -2,6 +2,7 @@
 #ifndef NN_MODULE_HPP
 #define NN_MODULE_HPP
 #include "conf.h"
+#include <ArduinoJson.h>
 #include "audioModule.hpp"
 #include "FC.hpp"
 #include "LSTM.hpp"
@@ -18,6 +19,7 @@ namespace Audio
 
             void update() override;
             void loadWeights(const char* path);
+            void test(float test);
 
             private:
             float inBuffer[AUDIO_BLOCK_SAMPLES];

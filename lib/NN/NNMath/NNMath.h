@@ -45,7 +45,9 @@ namespace NN
         }
         inline void tanhF32(float in, float* out) noexcept
         {
-            *out = 2.f/(1+expf(-2.f*in))-1;
+            // *out = 2.f/(1+expf(-2.f*in))-1;
+            // *out = tanhf(in);
+            *out = erff(in);
         }
         // inline void matVecMultF32(const float vec[], const uint16_t vecSize, const float (**mat), const uint16_t matSizeR, const uint16_t matSizeC, float (&out)[], const uint16_t outSize) noexcept;
     }
