@@ -11,7 +11,7 @@ namespace Audio
             i2sIn.begin();
 
             type = ModuleType::IN_I2S;
-            status = UpdateStatus::UNFINISHED;
+            // status = UpdateStatus::UNFINISHED;
         }
 
         void InputI2S::update()

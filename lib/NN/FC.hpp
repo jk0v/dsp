@@ -53,6 +53,7 @@ namespace NN
                     for(int j=0; j<inSize; ++j)
                     {
                         weights[i*inSize+j] = newWeights[i][j];
+                        // Serial.printf("%i, %i: weights: %.10f\n", j, i, weights[i*inSize+j]);
                     }
                 }
             }
@@ -62,6 +63,7 @@ namespace NN
                 for(int i=0; i<outSize; ++i)
                 {
                     bias[i] = b[i];
+                    // Serial.printf("bias: %.10f\n", bias[i]);
                 }
             }
 

@@ -22,20 +22,22 @@ void setup()
 
     enc.attachHalfQuad(ENC_PIN_DT, ENC_PIN_CLK);
     enc.setCount(0);
+
+    lcd.printf("0123456789012345\n678901234567890");
 }
 
 void loop()
 {
-    if(gain != enc.getCount())
-    {
-        gain = enc.getCount();
+    // if(gain != enc.getCount())
+    // {
+    //     gain = enc.getCount();
         
-        serPort.write(gain);
-        // serPort.printf("%d,", gain);
+    //     serPort.write(gain);
+    //     // serPort.printf("%d,", gain);
 
-        lcd.clear();
-        lcd.setCursor(0,1);
-        lcd.printf("Gain: %d", gain);
-    }
+    //     lcd.clear();
+    //     lcd.setCursor(0,1);
+    //     lcd.printf("Gain: %d", gain);
+    // }
     delay(200);
 }

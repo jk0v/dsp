@@ -12,6 +12,7 @@ namespace Audio
     {
         NNModule::NNModule()
         {
+            type = NN_MOD;
         }
 
         void NNModule::update()
@@ -20,13 +21,16 @@ namespace Audio
             {
                 // inBuffer[i] = (float)inputBuffers[0]->data[0][i]; // not normalized
                 inBuffer[i] = (float)inputBuffers[0]->data[0][i] * F24_NORM_MAX_INV; 
+                // Serial.printf("Norm data %i: %.15f", i, inBuffer[i]);
             }     
 
             for(int i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
                 lstm.forward(inBuffer[i]);
                 fc.forward(lstm.outState);
-                outputBuffers[0].data[0][i] = (int32_t)(fc.outState[0] * F24_NORM_MAX);
+                outputBuffers[0].data[0][i] = (int32_t)((fc.outState[0]) * F24_NORM_MAX);
+                // Serial.printf("Norm data %i: %.15f", i, inBuffer[i]);
+                // outputBuffers[0].data[0][i] = (int32_t)(inBuffer[i] * F24_NORM_MAX);
             }
         }
 

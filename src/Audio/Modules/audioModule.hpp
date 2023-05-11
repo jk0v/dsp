@@ -3,6 +3,8 @@
 #define AUDIOMODULE_HPP
 #include <Arduino.h>
 #include "conf.h"
+#include <arm_math.h>
+#include <dspinst.h>
 
 // TODO: think about order of propagation, audioSystem implementing ordered update, linearize signal chain(simplification)
 //       determine order from output to input once and save hierarchy
@@ -173,15 +175,16 @@ namespace Audio
         {
             IN_I2S,
             OUT_I2S,
+            NN_MOD,
             MODULETYPE_LAST
         };
-        enum UpdateStatus
-        {
-            FINISHED,
-            UNFINISHED,
-            PENDING,
-            PASSING
-        };
+        // enum UpdateStatus
+        // {
+        //     FINISHED,
+        //     UNFINISHED,
+        //     PENDING,
+        //     PASSING
+        // };
         class Module
         {
             public:
@@ -191,7 +194,7 @@ namespace Audio
             virtual void init() {};
 
             ModuleType getType(){return type;}
-            UpdateStatus getStatus(){return status;}
+            // UpdateStatus getStatus(){return status;}
             // int16_t getIndex(){return index;}
             
             virtual void update() {}
@@ -208,8 +211,8 @@ namespace Audio
             // Module* outputs[MAX_MODULE_IO];
             
             ModuleType type;
-            UpdateStatus status;
-            int16_t updateCount;
+            // UpdateStatus status;
+            // int16_t updateCount;
         };
     }
 }

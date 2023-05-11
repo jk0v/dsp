@@ -99,11 +99,12 @@ void modChainTest()
     // modChain.addModule(&mixer);
     modChain.addModule(&nnMod);
     
-    nnMod.loadWeights("/AmpPack1/BlackstarHT40_AmpHighGain.json");
+    nnMod.loadWeights("/Amps/6505_med_gain_4266.json");
     // float test = 0.5f;
     // nnMod.test(test);
     // test = 0.75f;
     // nnMod.test(test);
+    // nnMod.update();
     // mixer.setGain(0, 25.f);
     
 

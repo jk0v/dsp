@@ -204,15 +204,24 @@ namespace NN
                 //         Wo[j][i] = wVals[i][j + 3 * outSize];
                 //     }
                 // }
-                for(int i=0; i<inSize; ++i)
+                // for(int i=0; i<inSize; ++i)
+                // {
+                //     for(int j=0; j<outSize; ++j)
+                //     {
+                //         Wi[j][i] = (float)wVals[j][i];
+                //         Wf[j][i] = (float)wVals[j + outSize][i];
+                //         Wc[j][i] = (float)wVals[j + 2 * outSize][i];
+                //         Wo[j][i] = (float)wVals[j + 3 * outSize][i];
+                //         Serial.printf("%i, %i: Wi: %.10f, Wf: %.10f, Wc: %.10f, Wo: %.10f\n", j, i, Wi[i], Wf[i], Wc[i], Wo[i]);
+                //     }
+                // }
+                for(int i=0; i<outSize; ++i)
                 {
-                    for(int j=0; j<outSize; ++j)
-                    {
-                        Wi[j][i] = wVals[j][i];
-                        Wf[j][i] = wVals[j + outSize][i];
-                        Wc[j][i] = wVals[j + 2 * outSize][i];
-                        Wo[j][i] = wVals[j + 3 * outSize][i];
-                    }
+                    Wi_1[i] = (float)wVals[i][0];
+                    Wf_1[i] = (float)wVals[i + outSize][0];
+                    Wc_1[i] = (float)wVals[i + 2 * outSize][0];
+                    Wo_1[i] = (float)wVals[i + 3 * outSize][0];
+                    // Serial.printf("%i: Wi_1: %.10f, Wf_1: %.10f, Wc_1: %.10f, Wo_1: %.10f\n", i, Wi_1[i], Wf_1[i], Wc_1[i], Wo_1[i]);
                 }
             }
             // sets the layer recurrent weights (transpose in here)
@@ -235,10 +244,11 @@ namespace NN
                 {
                     for(int j=0; j<outSize; ++j)
                     {
-                        Ui[j][i] = uVals[j][i];
-                        Uf[j][i] = uVals[j + outSize][i];
-                        Uc[j][i] = uVals[j + 2 * outSize][i];
-                        Uo[j][i] = uVals[j + 3 * outSize][i];
+                        Ui[j][i] = (float)uVals[j][i];
+                        Uf[j][i] = (float)uVals[j + outSize][i];
+                        Uc[j][i] = (float)uVals[j + 2 * outSize][i];
+                        Uo[j][i] = (float)uVals[j + 3 * outSize][i];
+                        // Serial.printf("%i, %i: Ui: %.10f, Uf: %.10f, Uc: %.10f, Uo: %.10f\n", j, i, Ui[j][i], Uf[j][i], Uc[j][i], Uo[j][i]);
                     }
                 }
 
@@ -249,10 +259,11 @@ namespace NN
             {
                 for(int i=0; i<outSize; ++i)
                 {
-                    bi[i] = bVals[i];
-                    bf[i] = bVals[i + outSize];
-                    bc[i] = bVals[i + 2 * outSize];
-                    bo[i] = bVals[i + 3 * outSize];
+                    bi[i] = (float)bVals[i];
+                    bf[i] = (float)bVals[i + outSize];
+                    bc[i] = (float)bVals[i + 2 * outSize];
+                    bo[i] = (float)bVals[i + 3 * outSize];
+                    // Serial.printf("%i: bi: %.10f, bf: %.10f, bc: %.10f, bo: %.10f\n", i, bi[i], bf[i], bc[i], bo[i]);
                 }
             }
 

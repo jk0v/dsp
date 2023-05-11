@@ -7,7 +7,7 @@ namespace Audio
         void SerialModule::init()
         {
             Serial.begin(115200);
-            status = UpdateStatus::UNFINISHED;
+            // status = UpdateStatus::UNFINISHED;
             Serial.println("Begin");
         }
 
