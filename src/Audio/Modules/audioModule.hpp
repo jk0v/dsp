@@ -128,25 +128,6 @@ namespace Audio
             return used;
         }
         
-        // // maybe unsafe
-        // void cpyTo(Block* dest)
-        // {
-        //     memcpy(dest->data, &data, sizeof(data));
-        // }
-        // void cpyTo(int32_t** dest)
-        // {
-        //     memcpy(dest, &data, sizeof(data));
-        // }
-        
-        // // maybe unsafe
-        // void setFrom(Block* src)
-        // {
-        //     memcpy(&data, src->data, sizeof(data));
-        // }
-        // void setFrom(int32_t** src)
-        // {
-        //     memcpy(&data, src, sizeof(data));
-        // }
 
         void add(Block* src, int32_t normalize = 1)
         {
@@ -178,13 +159,7 @@ namespace Audio
             NN_MOD,
             MODULETYPE_LAST
         };
-        // enum UpdateStatus
-        // {
-        //     FINISHED,
-        //     UNFINISHED,
-        //     PENDING,
-        //     PASSING
-        // };
+        
         class Module
         {
             public:

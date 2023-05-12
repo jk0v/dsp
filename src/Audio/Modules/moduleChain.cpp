@@ -1,12 +1,7 @@
 #include "moduleChain.hpp"
 #include "output_i2s.h"
-// #include "util.h"
 
 extern Audio::Modules::ModuleChain modChain;
-// extern bool inUpdates;
-// extern void setupModInterrupt();
-
-
 
 namespace Audio
 {
@@ -15,19 +10,8 @@ namespace Audio
         void updateCallback()
         {
             for(int i=0; i<modChain.connIndex; ++i)
-            {
-                // if(modChain.connections[i].src->getStatus() == UNFINISHED)
-                // {
-                //     modChain.connections[i].src->update();
-                // }
-                // if(modChain.connections[i].dest->getStatus() == UNFINISHED)
-                // {
-                //     modChain.connections[i].dest->update();
-                // }
-                
+            {               
                 modChain.connections[i].src->update();
-                // modChain.connections[i].dest->update(); // doubles
-
             }
             asm("DSB");
         }
@@ -102,7 +86,6 @@ namespace Audio
             connIndex = 0;
 
             modUpdateCallback = updateCallback;
-            // updateClock.begin(updateCallback, MODULE_LOOP_DUR);
         }
         ModuleChain::ModuleChain(ModuleType* preset)
         {

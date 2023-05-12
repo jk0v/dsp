@@ -3,7 +3,6 @@
 #define FC_HPP
 #define ARDUINOJSON_USE_DOUBLE 0
 
-// #include "../../include/conf.h"
 #include <stdint.h>
 #include <arm_math.h>
 #include <ArduinoJson.h>
@@ -35,17 +34,13 @@ namespace NN
 
             inline void forward(float (&inState)[inSize]) noexcept
             {
-                // NN::Math::matVecMultF32(inState, inSize, weights, outSize, inSize, outState); // probably wrong
                 matMult(inState, weights, outState);
                 for(int i=0; i<outSize; ++i)
                 {
-                    // Serial.printf("val: %.10f\n", outState[i]);
                     outState[i] += bias[i];
                 }
-                // arm_add_f32(outState, bias, outState, outSize);
             }
 
-            // void setWeights(float** newWeights)
             void setWeights(JsonArray newWeights)
             {
                 for(int i=0; i<outSize; ++i)
@@ -53,17 +48,14 @@ namespace NN
                     for(int j=0; j<inSize; ++j)
                     {
                         weights[i*inSize+j] = newWeights[i][j];
-                        // Serial.printf("%i, %i: weights: %.10f\n", j, i, weights[i*inSize+j]);
                     }
                 }
             }
-            // void setBias(float* b)
             void setBias(JsonArray b)
             {
                 for(int i=0; i<outSize; ++i)
                 {
                     bias[i] = b[i];
-                    // Serial.printf("bias: %.10f\n", bias[i]);
                 }
             }
 
@@ -74,8 +66,6 @@ namespace NN
                 arm_matrix_instance_f32 tmpOut = {outSize, 1, out};
 
                 arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
-                // arm_status stat = arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
-                // Serial.printf("MatMultstatus: %d", (int)stat);
             }
             
 
