@@ -89,7 +89,6 @@ namespace NN
                 // arm_status stat = arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
                 // Serial.printf("recMatMultstatus: %d", (int)stat);
                 arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
-                
             }
             static inline void kernelMatMult(const float (&vec)[inSize], const float (&mat)[outSize][inSize], float (&out)[outSize]) noexcept{}
             inline void computeOutputs(float (&inState)) noexcept

@@ -22,7 +22,7 @@ namespace Audio
                 // inBuffer[i] = (float)inputBuffers[0]->data[0][i]; // not normalized
                 inBuffer[i] = (float)inputBuffers[0]->data[0][i] * F24_NORM_MAX_INV; 
                 // Serial.printf("Norm data %i: %.15f", i, inBuffer[i]);
-            }     
+            }
 
             for(int i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {

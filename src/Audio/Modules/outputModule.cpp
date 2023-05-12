@@ -41,14 +41,12 @@ namespace Audio
             // memcpy(out, in, sizeof(int32_t)*AUDIO_BLOCK_SAMPLES*2);
 
             // inI2S.input.setFromMono(in);
-            digitalToggleFast(35);
             inI2S.outputBuffers[0].setFromMono(in, 1);
                 // mixer.update();
             modUpdateCallback();
             // outI2S.output.cpyToMono(out);
             // outI2S.inputBuffers[0]->cpyToMono(out);
             outI2S.inputBuffers[0]->cpyTo(out);
-            digitalToggleFast(35);
             // NVIC_SET_PENDING(IRQ_SOFTWARE);
             // digitalToggleFast(35);
 

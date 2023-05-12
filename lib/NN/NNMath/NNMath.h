@@ -33,14 +33,14 @@ namespace NN
         // inline float sigmoidF32(float in) noexcept
         // {
         //     return 1.f/(1.f+expf(-(in))); // slow af (264ns)
-        //     // return (in <= )0.5f+(in/(3+((in <= 0) ? in : -in))); // alot faster (ca. 36ns), but only approx. (1-o. tayl.s.)
+        //     // return (in <= )0.5f+(in/(3+((in <= 0) ? in : -in))); // alot faster (ca. 36ns), but only approx. 
         //     // return 0.5f*tanhf(0.5f*in) + 0.5f; // even slower
         // }
         inline void sigmoidF32(float in, float* out) noexcept
         {
             // *out = 1.f/(1.f+expf(-(in))); // slow af (264ns)
-            // *out = /*(in >= 4.f) ? 1.f : */0.5f+(in/(3.f+((in <= 0.f) ? in : -in))); // alot faster (ca. 36ns), but only approx. (1-o. tayl.s.)
-            // *out = (in >= 3.f) ? 1.f : 0.5f+(in/(3.f+fabsf(in))); // alot faster (ca. 52ns), but only approx. (1-o. tayl.s.)
+            // *out = /*(in >= 4.f) ? 1.f : */0.5f+(in/(3.f+((in <= 0.f) ? in : -in))); // alot faster (ca. 36ns), but only approx. 
+            // *out = (in >= 3.f) ? 1.f : 0.5f+(in/(3.f+fabsf(in))); // alot faster (ca. 52ns), but only approx. 
             if(in >= 3.f)
             {
                 *out = 1.f;

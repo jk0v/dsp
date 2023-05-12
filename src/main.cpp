@@ -21,8 +21,8 @@ Audio::Modules::NNModule nnMod;
 
 void init()
 {
-    // Serial.begin(9600);
-    // while(!Serial) continue;
+    Serial.begin(9600);
+    while(!Serial) continue;
         
     // SD
     if(!SD.begin(BUILTIN_SDCARD))
@@ -93,7 +93,7 @@ void init()
 }
 
 void modChainTest()
-{
+{ 
     modChain.addModule(&inI2S);
     modChain.addModule(&outI2S);
     // modChain.addModule(&mixer);
@@ -122,9 +122,6 @@ void setup()
     init();
     modChainTest();
 }
-
-float inc = 0.f;
-float gain = 10.f;
 
 void loop()
 {
