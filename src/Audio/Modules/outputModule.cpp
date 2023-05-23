@@ -25,6 +25,7 @@ namespace Audio
             i2sOut.begin();
 
             type = ModuleType::OUT_I2S;
+            strcpy(name, "OutputI2S");
         }
 
         void OutputI2S::update()

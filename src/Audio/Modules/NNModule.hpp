@@ -21,12 +21,17 @@ namespace Audio
             void loadWeights(const char* path);
             void test(float test);
 
+            void getConf(JsonObject conf) override;
+            void setConf(JsonObject conf) override;
+
             private:
             float inBuffer[AUDIO_BLOCK_SAMPLES];
             float outBuffer[AUDIO_BLOCK_SAMPLES];
 
             NN::LSTM::LSTMLayerF32<1, NN_HIDDEN_SIZE> lstm;
             NN::FC::FCLayerF32<NN_HIDDEN_SIZE, 1> fc;
+
+            char path[MAX_PATH_LEN];
         };
     }
 }

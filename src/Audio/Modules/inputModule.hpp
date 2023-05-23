@@ -4,6 +4,7 @@
 #include "input_i2s.h"
 #include "audioModule.hpp"
 #include "outputModule.hpp"
+#include <ArduinoJson.h>
 
 extern void loop();
 namespace Audio
@@ -23,7 +24,6 @@ namespace Audio
             void update() override;
             
             Block* input;
-
 
             private:
             AudioInputI2S i2sIn;

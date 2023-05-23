@@ -83,7 +83,7 @@ namespace NN
                 const arm_matrix_instance_f32 tmpVec = {outSize, 1, vec};
                 arm_matrix_instance_f32 tmpOut = {outSize, 1, out};
 
-                arm_mat_mult_f32(&tmpMat, &tmpVec, &tmpOut);
+                arm_mat_mult_f32(&tmpVec, &tmpMat, &tmpOut); // flipped
             }
             static inline void kernelMatMult(const float (&vec)[inSize], const float (&mat)[outSize][inSize], float (&out)[outSize]) noexcept{}
             inline void computeOutputs(float (&inState)) noexcept

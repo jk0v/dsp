@@ -43,7 +43,11 @@ namespace Audio
             void removeModule(Module* mod);
             void removeConnection(Connection* conn);
 
-            void loadChainFromFile(char* filePath);
+            void loadFromFile(const char* name);
+            void saveToFile(const char* name);
+
+            void reset();
+            Module* getStaticModuleFromType(ModuleType type); // temporary: better go to dynamic allocation
             
             friend void updateCallback();
 
@@ -51,6 +55,9 @@ namespace Audio
             Module* modules[MAX_MODULES];
             Connection connections[MAX_CONNECTIONS];
             int16_t modIndex, connIndex;
+
+            char name[IO_MAX_STR_LEN];
+            char path[MAX_PATH_LEN];
             // TeensyTimerTool::PeriodicTimer updateClock;
             // IntervalTimer updateClock;
 

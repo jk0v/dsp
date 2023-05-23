@@ -13,20 +13,24 @@ namespace Audio
         NNModule::NNModule()
         {
             type = NN_MOD;
+            strcpy(name, "NNModule");
         }
 
         void NNModule::update()
         {
-            for(int i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
-            {
-                inBuffer[i] = (float)inputBuffers[0]->data[0][i] * F24_NORM_MAX_INV; 
-            }
+            // for(int i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
+            // {
+                
+            // }
 
             for(int i=0; i<AUDIO_BLOCK_SAMPLES; ++i)
             {
+                inBuffer[i] = (float)inputBuffers[0]->data[0][i] * F24_NORM_MAX_INV; 
                 lstm.forward(inBuffer[i]);
                 fc.forward(lstm.outState);
                 outputBuffers[0].data[0][i] = (int32_t)((fc.outState[0]) * F24_NORM_MAX);
+                outputBuffers[0].data[1][i] = (int32_t)((fc.outState[0]) * F24_NORM_MAX);
+                // outputBuffers[0].data[0][i] = (int32_t)(inBuffer[i] * F24_NORM_MAX);
             }
         }
 
@@ -38,19 +42,20 @@ namespace Audio
             File weightsFile = SD.open(path);
             if (weightsFile)
             {
+                // set new path name
+                strcpy(this->path, path);
+
                 DynamicJsonDocument weights(weightsFile.size());
                 DeserializationError err = deserializeJson(weights, weightsFile);
                 if(err)
                 {
                     // Serial.printf("Weights serialzation failed: %s", err.c_str());
                 }
-                
                 // set lstm kernel & recurrent weights
                 JsonArray lstm_weights_ih = weights["state_dict"]["rec.weight_ih_l0"];
                 JsonArray lstm_weights_hh = weights["state_dict"]["rec.weight_hh_l0"];
                 lstm.setWWeights(lstm_weights_ih);
                 lstm.setUWeights(lstm_weights_hh);
-
                 // set lstm bias
                 JsonArray lstm_bias_ih = weights["state_dict"]["rec.bias_ih_l0"];
                 JsonArray lstm_bias_hh = weights["state_dict"]["rec.bias_hh_l0"];
@@ -61,18 +66,16 @@ namespace Audio
                     lstm_bias_hh[i] = hh + ih;
                 }
                 lstm.setBWeights(lstm_bias_hh);
-
                 // set fc weights & bias
                 JsonArray fc_weights = weights["state_dict"]["lin.weight"];
                 JsonArray fc_bias = weights["state_dict"]["lin.bias"];
                 fc.setWeights(fc_weights);
                 fc.setBias(fc_bias);
-
-
+                // rename module
+                strncpy(name, weightsFile.name(), IO_MAX_STR_LEN);
                 // release json memory
                 weights.clear();
                 weightsFile.close();
-
                 // reenable audio interupts
                 outI2S.enableI2S();
             }
@@ -87,6 +90,20 @@ namespace Audio
             fc.forward(lstm.outState);
             Serial.printf("%.10f", fc.outState[0]);
 
+        }
+
+        void NNModule::getConf(JsonObject conf)
+        {
+            conf["name"] = name;
+            conf["type"] = type;
+            conf["weightsPath"] = path;
+        }
+        void NNModule::setConf(JsonObject conf)
+        {
+            strncpy(name, conf["name"], IO_MAX_STR_LEN);
+            type = conf["type"];
+            Serial.printf("56: %s, %d, %s", name, type, (const char*)conf["weightsPath"]);
+            loadWeights(conf["weightsPath"]);
         }
     }
 }

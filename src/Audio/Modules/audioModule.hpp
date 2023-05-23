@@ -5,6 +5,7 @@
 #include "conf.h"
 #include <arm_math.h>
 #include <dspinst.h>
+#include <ArduinoJson.h>
 
 // TODO: think about order of propagation, audioSystem implementing ordered update, linearize signal chain(simplification)
 //       determine order from output to input once and save hierarchy
@@ -169,6 +170,17 @@ namespace Audio
             virtual void init() {};
 
             ModuleType getType(){return type;}
+            virtual void getConf(JsonObject conf)
+            {
+                conf["name"] = name;
+                conf["type"] = type;
+            }
+            virtual void setConf(JsonObject conf)
+            {
+                strncpy(name, conf["name"], IO_MAX_STR_LEN);
+                type = conf["type"];
+            }
+
             // UpdateStatus getStatus(){return status;}
             // int16_t getIndex(){return index;}
             
@@ -186,6 +198,7 @@ namespace Audio
             // Module* outputs[MAX_MODULE_IO];
             
             ModuleType type;
+            char name[IO_MAX_STR_LEN];
             // UpdateStatus status;
             // int16_t updateCount;
         };

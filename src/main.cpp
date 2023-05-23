@@ -11,6 +11,7 @@
 #include "Audio/Modules/moduleChain.hpp"
 #include "Audio/Modules/mixModule.hpp"
 #include "Audio/Modules/NNModule.hpp"
+#include "IO/IO.hpp"
 
 Audio::Modules::ModuleChain modChain;
 Audio::Modules::InputI2S inI2S;
@@ -18,11 +19,24 @@ Audio::Modules::OutputI2S outI2S;
 // Audio::Modules::MixModule mixer;
 Audio::Modules::NNModule nnMod;
 
+const char* modNames[] = {
+    "marshall_1390",
+    "marshall_1152",
+    "marshall_300",
+    "6505_4266",
+    "6505_600",
+    "clean"
+};
+int numMod = 6;
+int actMod = 0;
+
+// IO::IO io;
+
 
 void init()
 {
-    Serial.begin(9600);
-    while(!Serial) continue;
+    // Serial.begin(9600);
+    // while(!Serial) continue;
         
     // SD
     if(!SD.begin(BUILTIN_SDCARD))
@@ -33,6 +47,14 @@ void init()
 
     // UART
     Serial1.begin(UART_BAUD, SERIAL_8N1);
+    // while(!Serial1.available())
+    // {
+    //     Serial1.write(5);
+    //     Serial.println("33");
+    //     delay(100);
+    //     continue;
+    // }
+    // Serial1.clear();
 
     // configure pins
     pinMode(AD_CS_PIN, OUTPUT);
@@ -83,15 +105,16 @@ void init()
 
 void modChainTest()
 { 
-    modChain.addModule(&inI2S);
-    modChain.addModule(&outI2S);
-    modChain.addModule(&nnMod);
-    
-    nnMod.loadWeights("/Amps/6505_med_gain_4266.json");
 
-    modChain.addConnection(&inI2S, 0, &nnMod, 0);
+    modChain.loadFromFile("marshall_1390");
+    // modChain.addModule(&inI2S);
+    // modChain.addModule(&outI2S);
+    // modChain.addModule(&nnMod);
+    // nnMod.loadWeights("/Amps/6505_med_gain_600.json");
 
-    modChain.addConnection(&nnMod, 0, &outI2S, 0);
+    // modChain.addConnection(&inI2S, 0, &nnMod, 0);
+    // modChain.addConnection(&nnMod, 0, &outI2S, 0);
+    // modChain.saveToFile("testChain");
 }
 
 void setup()
@@ -102,4 +125,15 @@ void setup()
 
 void loop()
 {
+    // if(Serial1.available()>0)
+    // {
+    //     // io.receiveUpdate();
+    //     int ind = Serial1.read();
+    //     if(ind%numMod != actMod)
+    //     {
+    //         actMod = abs(ind)%numMod;
+    //         modChain.loadFromFile(modNames[actMod]);
+    //         delay(200);
+    //     }
+    // }
 }
